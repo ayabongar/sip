@@ -1,0 +1,104 @@
+<div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> 
+        
+        <input matInput (keyup)="applyFilter($event.target.value)"  class="form-control w-25 p-3 border-bottom pull-right" placeholder="Search">
+      
+      </div>
+      <div class="card-body">  
+  <div class="example-container mat-elevation-z8">
+  
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="ClientID">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> <b>ClientID </b></mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.ClientID}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="GroupID">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> <b>GroupID </b></mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.GroupID}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="ClaimNumber">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> <b>ClaimNo </b></mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.ClaimNumber}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Litres">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> <b>Litres </b></mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.Litres}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="LevyDutyPetrol" class="header">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Levy Petrol </b> </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.LevyDutyPetrol}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="ExsiceDutyPetrol" class="header">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Excise Petrol </b> </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.ExsiceDutyPetrol}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="ExsiceDutyDesiel" class="header">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Excise Diesel </b> </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.ExsiceDutyDesiel}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="LevyDutyDesiel" class="header">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Levy Diesel </b> </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.LevyDutyDesiel}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="TOTALDUE" class="header">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Total </b> </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.TOTALDUE}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="StatusDescription">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b> Status</b> </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <span *ngIf="row.StatusDescription ==='AWAITING APPROVAL'"
+                class="badge badge-success">{{row.StatusDescription}}</span>
+          <span *ngIf="row.StatusDescription ==='FINALIZED'"
+                class="badge badge-success">{{row.StatusDescription}}</span>
+          <span *ngIf="row.StatusDescription ==='BOOKKEEPING'"
+                class="badge badge-success">{{row.StatusDescription}}</span>
+          <span *ngIf="row.StatusDescription ==='REWORK'"
+                class="badge badge-warning">{{row.StatusDescription}}</span>
+          <span *ngIf="row.StatusDescription ==='HOLD'"
+                class="badge badge-success">{{row.StatusDescription}}</span>
+          <span *ngIf="row.StatusDescription ==='SEND FOR APPROVAL'"
+                class="badge badge-success">{{row.StatusDescription}}</span>
+          <span *ngIf="row.StatusDescription ==='ACCEPT'"
+                class="badge badge-success">{{row.StatusDescription}}</span>
+          <span *ngIf="row.StatusDescription ==='REJECT'"
+                class="badge badge-danger">{{row.StatusDescription}}</span>
+          <span *ngIf="row.StatusDescription ==='READY FOR TRANSFER'"
+                class="badge badge-warning">{{row.StatusDescription}}</span>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button type="submit" class="btn btn-sm btn-primary" (click)="goToClaimEditor(row.ClientID,row.VehicleID,row.ClaimID,row.ClaimGroupID)"> Amend </button>|
+          <button type="submit" class="btn btn-sm btn-primary" (click)="deleteClaim(row.ClaimID)"> Delete  </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+  
+    <mat-paginator></mat-paginator>
+  </div>
+  
+  
+</div>
+</div>
+</div>

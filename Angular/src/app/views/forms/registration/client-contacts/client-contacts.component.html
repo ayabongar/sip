@@ -1,0 +1,67 @@
+
+<div class="card">
+    <div class="card-header">
+      <strong>CONTACT INFORMATION</strong> Form
+    </div>
+    <form [formGroup]="PopupForm" (ngSubmit)="onSubmit()" class="form-horizontal"  class="was-validated">
+      <div class="card-body">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="inputSuccess1">Type</label>
+          <div class="col-md-9">
+          <select formControlName="Role"  [(ngModel)]="userObject.RoleId"  id="Contr" name="Contr" class="form-control" required>
+              <option value="">Role is  required</option>
+              <option *ngFor="let c of lstRole" [ngValue]="c.ID">{{c.RoleName}}</option>
+              
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="inputError1">Client Name</label>
+          <div class="col-md-9">
+          <input type="text" class="form-control" id="inputError1" required>
+          
+        </div></div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="ReferenceNumber">Reference Number</label>
+          <div class="col-md-9">
+          <input type="text" class="form-control" id="ReferenceNumber" required>
+          
+        </div></div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="Reference Date">Reference Date</label>
+          <div class="col-md-9">
+          <input class="form-control" id="ReferenceDate" type="date" name="Reference Date" placeholder="date" required>
+        </div></div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="Nationality">Nationality</label>
+          <div class="col-md-9">
+          <select formControlName="Nationality"  [(ngModel)]="userObject.RoleId"  id="Contr" name="Contr" class="form-control" required>
+              <option value="">Nationality is  required</option>
+              <option *ngFor="let c of lstNationality" [ngValue]="c.ID">{{c.RoleName}}</option>
+              
+            </select>
+        </div></div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="Code">Code</label>
+          <div class="col-md-9">
+          <input class="form-control" id="Code" type="text" name="Code"  required>
+        </div></div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="RegistrationDate">Registration Date</label>
+          <div class="col-md-9">
+          <input class="form-control" id="RegistrationDate" type="date" name="RegistrationDate" placeholder="date" required>
+        </div></div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="CancellationDate">Cancellation Date</label>
+          <div class="col-md-9">
+          <input class="form-control" id="CancellationDate" type="date" name="CancellationDate" placeholder="date" required>
+        </div></div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="Code">Status</label>
+          <div class="col-md-9">
+          <input class="form-control" id="Status" type="text" name="Status"  required>
+        </div></div>
+      </div>
+    </form>
+  </div>
+

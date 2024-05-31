@@ -1,0 +1,52 @@
+<form   method="post" [formGroup]="PopupForm" (ngSubmit)="onSubmit()" class="form-horizontal"  class="was-validated">
+    <div class="form-group row">
+        <div class="input-group">
+          
+      <label class="col-md-3 col-form-label" for="text-input"> Employee SID:</label>
+      <div class="col-md-9">
+        <input type="text" id="UserCode" formControlName="UserCode"  name="UserCode"   [(ngModel)]="userObject.UserCode" class="form-control" placeholder="Name is required"   required>
+        
+    
+       </div>
+      </div>
+    </div>
+    <div class="form-group row">
+        <div class="input-group">
+          
+      <label class="col-md-3 col-form-label" for="text-input"> Employee Fullname:</label>
+      <div class="col-md-9">
+        <input type="text" id="UserFullName" formControlName="UserFullName"  name="UserFullName"   [(ngModel)]="userObject.UserFullName" class="form-control" placeholder="Name is required"   required>
+        
+    
+       </div>
+      </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label"for='Contr' >User Role</label>
+        <div class="col-md-9">
+          <select formControlName="Role"  [(ngModel)]="userObject.RoleId"  id="Contr" name="Contr" class="form-control" required>
+            <option value="">Role is  required</option>
+            <option *ngFor="let c of lstRole" [ngValue]="c.ID">{{c.RoleName}}</option>
+            
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label"for='Contr' >Is item active ?</label>
+        <div class="col-md-9">
+            <label class="switch switch-label switch-outline-primary-alt">
+                <input  id="isActive"  formControlName="IsActive" name="isActive"  [(ngModel)]="userObject.IsActive" type="checkbox"  class="switch-input" >
+                <span class="switch-slider"  data-checked="✓" data-unchecked="✕"></span>              
+           </label>
+        </div>
+      </div>
+    <div  class="col-sm-12">
+     
+    </div>
+    
+    <div class="card-footer">
+                    
+        
+        <button  type="submit"  *ngIf="PopupForm.valid" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+      </div>
+    </form>

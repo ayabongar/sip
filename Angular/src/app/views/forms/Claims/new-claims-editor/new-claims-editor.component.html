@@ -1,0 +1,595 @@
+
+<mat-tab-group>
+  <mat-tab label="CLAIM EDITOR">
+
+
+    <form [formGroup]="ClaimForm" (ngSubmit)="onSubmit()" class="was-validated">
+      <div class="row" *ngIf="claimStatusId =='4' || claimStatusId == '8'">
+        <div class="col-sm-12">
+          <span class="badge badge-danger" style="width: 100%;">THIS CLAIM CANNOT BE AMMENDED.</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="card">
+            <div class="card-header">
+              <strong>VEHICLE INFORMATION</strong> Form
+            </div>
+            <div class="card-body">
+              <div class="row">
+
+                <div class="form-group col-sm-2">
+                  <label for="Code">Code</label>
+
+                  <input class="form-control form-control-sm" formControlName="ClientID" type="text">
+
+                </div>
+                <div class="form-group col-sm-6">
+                  <label>Client Name</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="ClientName" required>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="Owner">Owner</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="Owner" required>
+                </div>
+              </div>
+              <div class="row">
+
+                <div class="form-group col-sm-3">
+                  <label for="ClientVehiclesID"> Claimable Vehicle</label>
+
+                  <select formControlName="ClientVehiclesID"  (ngModelChange)="ngOnVehicleSelected($event)" class="form-control form-control-sm" required>
+                    <option value="0">Select One.. </option>
+                    <option *ngFor="let v of clientVehicles" value="{{v.VehicleID}}">{{v.VehicleRegistration}}</option>
+
+                  </select>
+                </div>
+                <div class="form-group col-sm-1">
+                  <label for="VehicleRegistration">...</label><br />
+                  <button type="button" *ngIf="((userRole ==3) || (userRole ==1))" (click)="searchVehicle(Vehicle)" class="btn btn-sm btn-primary">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="VehicleRegistration">Selected Vehicle</label>
+                  <input type="text" class="form-control form-control-sm"
+                         formControlName="VehicleRegistration" required>
+                </div>
+
+                <div class="form-group col-sm-4">
+                  <label for="VehicleTankCapacity">Litres</label>
+                  <input type="text" class="form-control form-control-sm"
+                         formControlName="VehicleTankCapacity" required>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-4">
+                  <label for="FuelTypeID">Fuel Type</label>
+                  <select formControlName="FuelTypeID" class="form-control form-control-sm" required>
+                    <option value="">Select One.. </option>
+                    <option value="1">Petrol </option>
+                    <option value="2">Diesel </option>
+
+                  </select>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="RegistrationDate">Effective Date</label>
+                  <input class="form-control form-control-sm" formControlName="RegistrationDate" required
+                         type="date" placeholder="date">
+
+                </div>
+                <div class="form-group col-sm-4">
+                  <label>Date Issued</label>
+                  <input type="text" appDateMask class="form-control form-control-sm" formControlName="DateIssued"
+                         required placeholder="date">
+
+                  <div *ngIf="claimForm.DateIssued.touched && claimForm.DateIssued.invalid" class="alert alert-danger">
+
+                    <div *ngIf="claimForm.DateIssued.errors.futureDate">Date Issued cannot be the future.</div>
+                    <div *ngIf="claimForm.DateIssued.errors.invalidDate">Date Issued is invalid.</div>
+                  </div>
+                </div>
+
+
+
+
+
+              </div>
+              <div class="row">
+
+
+                <div class="form-group col-sm-4">
+                  <label for="VehicleRefNumber">
+                    Note Verbale
+                  </label>
+
+                  <input type="text" class="form-control form-control-sm" formControlName="VehicleRefNumber"
+                         required>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label>Reference Date</label>
+                  <input type="text" appDateMask class="form-control form-control-sm" formControlName="VehicleRefDate"
+                         required placeholder="date">
+                  <div *ngIf="claimForm.VehicleRefDate.touched && claimForm.VehicleRefDate.invalid" class="alert alert-danger">
+
+                    <div *ngIf="claimForm.VehicleRefDate.errors.futureDate">Reference Date cannot be the future.</div>
+                    <div *ngIf="claimForm.VehicleRefDate.errors.invalidDate">Reference Date is invalid.</div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-4">
+                  <label for="ClaimExciseTotal"> <b>EXCISE DUTY CODE</b> </label>
+                  <input type="text" class="form-control form-control-sm"
+                         formControlName="ExciseDutyCode">
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="FuelLevyCode"> <b>FUEL LEVY CODE</b> </label>
+                  <input type="text" class="form-control form-control-sm"
+                         formControlName="FuelLevyCode">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-4">
+                  <label for="ClaimExciseTotal"> <b>EXCISE DUTY AMOUNT</b> </label>
+                  <input type="text" class="form-control form-control-sm"
+                         formControlName="ClaimExciseTotal">
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="Levy"> <b>FUEL LEVY AMOUNT </b></label>
+                  <input type="text" class="form-control form-control-sm" formControlName="Levy">
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="ExciseLevy"> <b>TOTAL</b> </label>
+                  <input type="text" class="form-control form-control-sm" formControlName="ClaimAmountTotal">
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+
+            <div class="card-header">
+              <strong>CLAIM & GROUP</strong> Form
+            </div>
+            <div class="card-body">
+              <div class="row">
+
+
+                <div class="form-group col-sm-6">
+                  <label for="GroupNumber">Group Number</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="GroupNumber">
+                </div>
+                <div class="form-group col-sm-6">
+                  <label>Claim Number</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="ClaimNumber">
+                </div>
+
+              </div>
+              <div class="row">
+
+                <div class="form-group col-sm-6">
+                  <label>Group Status</label>
+                  <span *ngIf="ClaimGroupTotalStatus =='AWAITING APPROVAL'"
+                        class="badge badge-success">{{ClaimGroupTotalStatus}}</span>
+                  <span *ngIf="ClaimGroupTotalStatus =='ACCEPT'"
+                        class="badge badge-success">{{ClaimGroupTotalStatus}}</span>
+                  <span *ngIf="ClaimGroupTotalStatus =='REJECT'"
+                        class="badge badge-danger">{{ClaimGroupTotalStatus}}</span>
+                  <span *ngIf="ClaimGroupTotalStatus =='SEND FOR APPROVAL'"
+                        class="badge badge-success">{{ClaimGroupTotalStatus}}</span>
+                  <span *ngIf="ClaimGroupTotalStatus ==='OTHER STATUS'"
+                        class="form-control form-control-sm badge badge-warning">{{ClaimGroupTotalStatus}}</span>
+                </div>
+
+                <div class="form-group col-sm-6">
+                  <label for="ClaimStatus">Claim Status</label>
+                  <span *ngIf="ClaimTotalStatus =='1'"
+                        class="badge badge-success">SEND FOR APPROVAL</span>
+                  <span *ngIf="ClaimTotalStatus =='3'"
+                        class="badge badge-warning">RE-WORK</span>
+                  <span *ngIf="ClaimTotalStatus =='4'"
+                        class="badge badge-danger">REJECTED</span>
+                  <span *ngIf="ClaimTotalStatus =='10'"
+                        class="badge badge-success">AWAITING APPROVAL</span>
+                  <span *ngIf="ClaimTotalStatus ==='9'"
+                        class="form-control form-control-sm badge badge-warning">READY FOR TRANSFER</span>
+                </div>
+              </div>
+              <div class="row">
+
+                <div class="form-group col-sm-6">
+                  <label>Group Total Liters</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="GroupTotalLitres">
+                </div>
+
+                <div class="form-group col-sm-6">
+                  <label for="ClaimTotalLiters">Claim Total Liters</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="ClaimTotalLitres">
+                </div>
+              </div>
+              <div class="row">
+                <textarea class="form-control" formControlName="StatusReasonDescription" placeholder="No Status Reason" rows="3"></textarea>
+              </div>
+
+
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </form>
+    <div class="card">
+      <div class="card-header">
+
+        <!--<input matInput (keyup)="applyFilter($event.target.value)" class="form-control w-25 p-3 border-bottom pull-right" placeholder="Search Invoice">-->
+
+        <button type="button" *ngIf="ClaimForm.valid && (userRole ==1 || userRole==3)" (click)="open(content)" class="btn btn-sm btn-primary">
+          <i class="fa fa-cc-mastercard"></i> Add New Invoice
+        </button>  |
+
+        <button type="button" *ngIf="InvoiceFound" class="btn btn-sm btn-primary" (click)="printReport(Report,'GroupTotals')">
+          <i class="fa fa-envelope-o"></i> View Claims
+        </button>
+        <button type="button" *ngIf="InvoiceFound" class="btn btn-sm btn-outline-dark " (click)="printInvoiceReport(Report,'InvoiceParticularsPerClaim')">
+          <i class="fa fa-print "></i>Print Invoice
+        </button>
+        <button type="button" *ngIf="InvoiceFound && ClaimForm.valid && (userRole ==1 || userRole==3)" class="btn btn-sm btn-outline-dark" (click)="DeleteClaim()">
+          <i class="fa fa-remove"></i> Delete Claims
+        </button>
+        <b>TOTAL LITRES: <label><span style="color:red">{{InvoiceTotalLitres}}</span></label></b>
+      </div>
+      <div class="card-body">
+        <div class="example-container mat-elevation-z8">
+
+          <mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="select">
+              <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="InvoiceDate">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> <b>InvoiceDate </b></mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.InvoiceDate | date: 'yyyy-MM-dd'}} </mat-cell>
+            </ng-container>
+            <!-- ID Column -->
+            <ng-container matColumnDef="InvoiceNo" class="header">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>InvoiceNo</b> </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.InvoiceNo}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="supplier" class="header">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>Supplier </b> </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.supplier}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="amount" class="header">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>Amount </b> </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.amount}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="InvoiceLiters" class="header">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><!--<span>{{TotalLitres}} </span>--><b>Litres </b></mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.InvoiceLiters }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Odoreading" class="header">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>Odoreading </b> </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.Odoreading}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="StatusDescription">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b> Status</b> </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+
+                <span *ngIf="row.StatusDescription ==='ACCEPT'"
+                      class="badge badge-success">{{row.StatusDescription}}</span>
+                <span *ngIf="row.StatusDescription ==='REJECT'"
+                      class="badge badge-danger">{{row.StatusDescription}}</span>
+                <span *ngIf="row.StatusDescription ==='OTHER STATUS'"
+                      class="badge badge-warning">{{row.StatusDescription}}</span>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <button type="submit" *ngIf="row.InvoiceID > 0 &&  (userRole ==1 || userRole==3)" class="btn btn-sm btn-primary" (click)="btnEditInvoice(content,row.InvoiceID)">
+                  <i class="fa fa-pencil"></i> Edit
+                </button> | <button type="submit" *ngIf="row.InvoiceID > 0 &&   (userRole ==1 || userRole==3)" class="btn btn-sm btn-primary"
+                                    (click)="DeleteInvoice(row.InvoiceID)">
+                  <i class="fa fa-trash-o"></i> Delete
+                </button>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+          </mat-table>
+
+          <mat-paginator></mat-paginator>
+        </div>
+
+
+      </div>
+    </div>
+
+    <ng-template #content let-modal>
+      <form [formGroup]="InvoiceForm" (ngSubmit)="SubmitInvoice()" class="was-validated">
+        <div class="card">
+          <div class="modal-header">
+            <strong>ADD/EDIT INVOICE </strong>
+            <button type="button" class="btn btn-outline-dark" (click)="close(content)">Close</button>
+
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+
+            </div>
+            <div class="row">
+
+              <div class="form-group col-sm-6">
+                <label for="InvoiceDate">Invoice Date (yyyy/MM/dd)</label>
+              </div>
+              <div class="form-group col-sm-6">
+
+                <input #InvoiceDateFocus class="form-control form-control-sm" appDateMask formControlName="InvoiceDate" required type="text"
+                       placeholder="yyyy/MM/dd" disabled>
+                <div *ngIf="f.InvoiceDate.touched && f.InvoiceDate.invalid" class="alert alert-danger">
+                  <div *ngIf="f.InvoiceDate.errors.InvoiceDateFallsOutside">
+                    Invoice Date falls outside the
+                    Vehicle Registration period.
+                  </div>
+                  <div *ngIf="f.InvoiceDate.errors.futureDate">Invoce date cannot be the future.</div>
+                  <div *ngIf="f.InvoiceDate.errors.TwoYearsOld">Invoice date is two years older than the Recieve date on the Invoice.</div>
+                  <div *ngIf="f.InvoiceDate.errors.invalidDate">Invoice date is invalid.</div>
+                </div>
+
+
+              </div>
+
+            </div>
+            <!--<div class="row">
+              <div class="form-group col-sm-6">
+                <label>Invoice Number</label>
+              </div>
+              <div class="form-group col-sm-6">
+                <input type="text" class="form-control form-control-sm" formControlName="InvoiceNumber"
+                       required>
+              </div>
+            </div>-->
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label>Supplier</label>
+              </div>
+              <div class="form-group col-sm-6">
+                <input type="text" class="form-control form-control-sm" formControlName="Supplier" required>
+               
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label>Amount</label>
+              </div>
+              <div class="form-group col-sm-6">
+                <input class="form-control form-control-sm" type="text" formControlName="Amount"
+                       required>
+                <div *ngIf="f.Amount.touched && f.Amount.invalid" class="alert alert-danger">
+                  <div *ngIf="f.Amount.errors.required">Number is required.</div>
+                  <div *ngIf="f.Amount.errors.notNumber">The mount must be a float type</div>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label>Litres</label>
+              </div>
+              <div class="form-group col-sm-6">
+                <input type="text" class="form-control form-control-sm" formControlName="Litres" type="text"
+                       required>
+                <div *ngIf="f.Litres.touched && f.Litres.invalid" class="alert alert-danger">
+                  <div *ngIf="f.Litres.errors.required">Litres is required.</div>
+                  <div *ngIf="f.Litres.errors.notNumber">The Litres must be a float type</div>
+
+                </div>
+              </div>
+            </div>
+
+            <!--<div class="row">
+              <div class="form-group col-sm-6">
+                <label>KM(s)</label>
+              </div>
+              <div class="form-group col-sm-6">
+                <input type="text" class="form-control form-control-sm" formControlName="KMS" type="number">
+                <div *ngIf="f.KMS.touched && f.KMS.invalid" class="alert alert-danger">
+                  <div *ngIf="f.KMS.errors.required">Number is required.</div>
+                </div>
+              </div>-->
+            <!--<div class="form-group col-sm-12">
+              <app-file-upload *ngIf="FileQueryString.IdProvided" [FileQueryString]="FileQueryString"></app-file-upload>
+            </div>-->
+            <!--</div>-->
+            <!--<div class="row" *ngIf="FileQueryString.IdProvided === false">
+              <div class="form-group col-sm-6">
+                <label>Upload invoice</label>
+              </div>
+              <div class="form-group col-sm-6">
+                <input type="file" (change)="onFileChange($event)" formControlName="FileUpload" />
+              </div>
+            </div>-->
+          </div>
+          <div class="card-footer">
+            <button type="submit" *ngIf="InvoiceForm.valid" class="btn btn-sm btn-success">
+              <i class="fa fa-dot-circle-o"></i> Submit
+            </button>
+
+
+
+          </div>
+        </div>
+      </form>
+    </ng-template>
+
+
+    <div id="claimTotal">
+      <ng-template #claimTotals let-modal>
+
+
+        <form [formGroup]="ClaimTotalForm" (ngSubmit)="SubmitClaimTotalInvoice()">
+          <div class="card">
+            <div class="card-header">
+              <strong>CLAIM TOTAL</strong> Form
+            </div>
+            <div class="card-body">
+
+              <div class="row">
+                <div class="form-group col-sm-4">
+                  <strong>ALLOCATION CODE</strong>
+
+                </div>
+                <div class="form-group col-sm-4">
+                  <strong>CLAIM</strong>
+                </div>
+                <div class="form-group col-sm-4">
+                  <strong>GROUP</strong>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-4">
+                  <label for="EXCISE"> EXCISE</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="EXCISE"
+                         required readonly>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="ClaimExciseTotal"> EXCISE TOTAL </label>
+                  <input type="text" class="form-control form-control-sm"
+                         formControlName="ClaimExciseTotal">
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="GroupExciseTotal"> EXCISE TOTAL </label>
+                  <input type="text" class="form-control form-control-sm"
+                         formControlName="GroupExciseTotal">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-4">
+                  <label for="LevyDuty"> FUEL</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="LevyDuty"
+                         required readonly>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="Levy"> FUEL TOTAL </label>
+                  <input type="text" class="form-control form-control-sm" formControlName="Levy">
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="GroupExciseTotal"> EXCISE TOTAL </label>
+                  <input type="text" class="form-control form-control-sm"
+                         formControlName="GroupExciseTotal">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-4">
+                  <label for="ExciseLevy"> TOTAL</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="ExciseLevy">
+                </div>
+                <div class="form-group col-sm-8">
+                  <div class="form-group">
+                    <label for="ExciseLevy"> STATUS</label>
+                    <span *ngIf="ClaimTotalStatus ==='AWAITING AUTHORIZATION'"
+                          class="badge badge-success">{{ClaimTotalStatus}}</span>
+                    <span *ngIf="ClaimTotalStatus ==='REJECTED'"
+                          class="form-control form-control-sm badge badge-success">{{ClaimTotalStatus}}</span>
+                    <span *ngIf="ClaimTotalStatus ==='SEND FOR AUTHORIZATION'"
+                          class="form-control form-control-sm badge badge-success">{{ClaimTotalStatus}}</span>
+                    <span *ngIf="ClaimTotalStatus ==='OTHER STATUS'"
+                          class="form-control form-control-sm badge badge-warning">{{ClaimTotalStatus}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn btn-sm btn-primary" (click)="printReport(Report,'GroupTotals')"><i class="fa fa-dot-circle-o"></i> Save Claim</button>
+            <button type="button" class="btn btn-sm btn-primary" (click)="close(claimTotal)"><i class="fa fa-dot-circle-o"></i> Continue With a Group</button>
+            <button type="button" class="btn btn-outline-dark" (click)="close(claimTotal)">Close</button>
+            <!-- <button type="button" class="btn btn-sm btn-outline-dark" (click)="findInvalidControls();"><i class="fa fa-ban"  ></i> Close 1</button>
+            -->
+          </div>
+
+
+        </form>
+
+
+      </ng-template>
+    </div>
+
+
+    <ng-template #Report let-modal>
+      <div class="card-footer">
+        <button type="button" *ngIf="(userRole ==1 || userRole==3)" class="btn btn-sm btn-primary" (click)="goToClaimEditor()"><i class="fa fa-dot-circle-o"></i> Continue With a Group</button>
+        <button type="button" *ngIf="(userRole ==1 || userRole==3)" class="btn btn-sm btn-primary" (click)="goToSubmitToSuperviser()">Save and Close</button>
+        <button type="button" class="btn  btn-sm btn-outline-dark" (click)="close()">Back</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="container">
+            <ssrs-reportviewer [reportserver]="reportServer" [reporturl]="reportUrl"
+                               [language]="language" [width]="width"
+                               [height]="height" [toolbar]="toolbar" [showparameters]="false" [parameters]="parameters" [ShowPrintButton]="true">
+            </ssrs-reportviewer>
+          </div>
+        </div>
+      </div>
+
+
+    </ng-template>
+
+  </mat-tab>
+  <mat-tab label="DOCUMENT VIEWER">
+
+    <div class="card">
+      <div class="modal-header">
+        <strong> Documents</strong> :::
+
+      </div>
+      <div class="card-body">
+
+
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <app-file-upload *ngIf="FileQueryString.IdProvided" [FileQueryString]="FileQueryString"></app-file-upload>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-tab>
+  <!--<mat-tab label="Third"> Content 3 </mat-tab>-->
+</mat-tab-group>
+<ng-template #Vehicle let-modal>
+
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">CLIENT VEHICLES </h4>
+    <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+  </div>
+  <div class="modal-body">
+    <app-search-vehicle *ngIf="clientId" (SearchVehicleEmitter)="ngSearchVehicles($event)" [clientVehicles]="clientVehicles"></app-search-vehicle>
+
+  </div>
+
+</ng-template>

@@ -1,0 +1,174 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Manage Refund Rates</h4>
+        <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+    </div>
+    <div class="modal-body">
+        <form method="post" [formGroup]="PopupForm" (ngSubmit)="onSubmit()" class="form-horizontal"
+            class="was-validated">
+
+
+            <div class="row">
+
+                <div class="form-group col-sm-6">
+                    <label for="RefundTypeDescription">Description:</label>
+
+                    <input type="text" class="form-control form-control-sm" formControlName="RefundTypeDescription"
+                    [(ngModel)]="object.RefundTypeDescription"   required readonly>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="RefundEffectiveDate">Effective Date</label>
+                    <input type="date" class="form-control form-control-sm" formControlName="RefundEffectiveDate"
+                      required>
+                </div>
+
+
+            </div>
+            <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Fuel Duty</strong> Form
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="form-group col-sm-6">
+                                <label for="Code">Fuel Duty Code:</label>
+                                <input class="form-control" formControlName="RefundFuelCode"  [(ngModel)]="object.RefundFuelCode" type="text" readonly>
+
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>Fuel Duty Rate</label>
+                                <input type="text" class="form-control" formControlName="RefundFuelLevy"  type="number"  [(ngModel)]="object.RefundFuelLevy" required>
+                            </div>
+
+                        </div>
+                     
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Excise Duty</strong> Form
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="form-group col-sm-6">
+                                <label for="Code">Excise Duty Code:</label>
+                                <input class="form-control" formControlName="RefundExciseCode"  [(ngModel)]="object.RefundExciseCode" type="text" readonly>
+
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>Excise Duty rate</label>
+                                <input type="text" class="form-control" formControlName="RefundExciseDuty"   type="number" [(ngModel)]="object.RefundExciseDuty" required>
+                            </div>
+
+                        </div>
+                     
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+            <div class="card-footer">
+
+
+                <button type="submit" *ngIf="PopupForm.valid" class="btn btn-sm btn-primary"><i
+                        class="fa fa-dot-circle-o"></i> Submit</button>
+            </div>
+        </form>
+    </div>
+
+</ng-template>
+<!---Dashboard-->
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-align-justify"></i>
+           
+            <input matInput (keyup)="applyFilter($event.target.value)"
+                class="form-control w-25 p-3 border-bottom pull-right" placeholder="Search">
+
+        </div>
+        <div class="card-body">
+            <div class="example-container mat-elevation-z8">
+
+              <mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="RefundRateID">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RefundRateID</b></mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.RefundRateID}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="RefundDescriptionID">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RefundDescriptionID</b></mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.RefundDescriptionID}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="RefundTypeDescription">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RefundType</b></mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.RefundTypeDescription}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="RefundFuelCode">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RefundFuelCode</b></mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.RefundFuelCode}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="RefundExciseCode">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RefundExciseCode</b></mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.RefundExciseCode}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="RefundEffectiveDate">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RefundEffectiveDate</b></mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.RefundEffectiveDate}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="RefundCancellationDate">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RefundCancellationDate</b></mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.RefundCancellationDate}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="RefundExciseDuty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RefundExciseDuty</b></mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.RefundExciseDuty}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="RefundFuelLevy">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RefundFuelLevy</b></mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.RefundFuelLevy}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="IsActive">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> <b>Status</b> </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <span *ngIf="row.IsActive" class="badge badge-success">Active</span>
+                    <span *ngIf="!row.IsActive" class="badge badge-dark">In-Active</span>
+                  </mat-cell>
+                </ng-container>
+                <!-- ID Column -->
+
+
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <button *ngIf="row.IsActive" type="submit" class="btn btn-sm btn-primary"
+                            (click)="edit(content,row.RefundRateID)">
+                      <i class="fa fa-file"></i> View
+                    </button>
+                  </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;">
+                </mat-row>
+              </mat-table>
+
+                <mat-paginator></mat-paginator>
+            </div>
+
+
+        </div>
+    </div>
+</div>

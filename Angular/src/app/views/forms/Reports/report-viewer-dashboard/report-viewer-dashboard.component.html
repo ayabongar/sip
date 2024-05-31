@@ -1,0 +1,146 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <strong>CLAIMS</strong> Reports
+            </div>
+
+            <div class="card-body">
+                <div class="row"><a class='btn' style="cursor:pointer" (click)="openReport(Report,'GroupTotals');">Group
+                        Totals </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ClaimHistory');">Claim History </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ClaimStatusPerClient');"> Claim Status Per Client</a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'InvoiceParticularsPerClaim');"> Invoice Particulars Per Claim</a>
+                </div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'OutstandingClaims');"> Outstanding 'OS' Claims per period</a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ProtocolClaimsPerClientPerPeriod');">Protocol Claims Per Client Per
+                        Period </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer" (click)="openReport(Report,'ClaimTotals');">Claim
+                        Totals </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ListOfClaimsForwardedForPayment');">List of Claims Forwarded for
+                        Payment </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'WarningOdometerReport');">Odometer Warning Letter </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'RefundOfExcise');">Refund of Excise duty and Fuel levy </a></div>
+            </div>
+
+        </div>
+        <div class="card">
+
+            <div class="card-header">
+                <strong>CLIENT</strong> Reports
+            </div>
+            <div class="card-body">
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ActiveClientsPerClientType');">Number of Active Clients per client
+                        type</a></div>
+                <div class="row"><a class='btn' style="cursor:pointer" (click)="openReport(Report,'ClientList');">List
+                        of All Clients </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ClientRegistration');"> Confirmarion of Client Registration</a>
+                </div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ClientDeRegistration');"> Confirmation of Client De-Registration</a>
+                </div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ClientTypeChange');">Confirmation of Amendents to an Embassy </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+
+            <div class="card-header">
+                <strong>Vehicles</strong> Reports
+            </div>
+            <div class="card-body">
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'NewVehiclePerPeriod');"> New or Cancelled Vehicles Per Period </a>
+                </div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'TemporaryVehiclesForClient');"> Temporary Vehicles For Client </a>
+                </div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'DeRegistrationInRefundScheme');"> De-Registration for Participation
+                        in Fuel Refund Scheme </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'AmendmentInFuelRefundScheme');"> Amendment for Participation in the
+                        Fuel Refund Scheme </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'RegistrationInFuelRefundScheme');"> Registration for Participation
+                        in the Fuel Refund Scheme</a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'VehicleOdometerReadingPerPeriod');">Vehicle Odometer Reading per
+                        Period </a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ActiveVehiclesPerClient');"> Active and InActive Vehicles per Client
+                    </a></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <strong>OTHER</strong> Reports
+            </div>
+
+            <div class="card-body">
+
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'RefundPerClientPerPeriod');">Refunds per Client per Period</a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'RefundAmountPerPeriod');">Refund Amount per Period</a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'RefundRates');">Refund Rates</a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ActiveReplacementsHistory');">Cheque Replacement History</a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'ProductionReport');">Production Report per Period</a></div>
+                <div class="row"><a class='btn' style="cursor:pointer"
+                        (click)="openReport(Report,'LookupListing');">Lookup Listing</a></div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+    
+
+
+    </div>
+    <div class="col-sm-6">
+       
+
+
+    </div>
+</div>
+
+
+<ng-template #Report let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{reportName}}</h4>
+        <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="container">
+                <ssrs-reportviewer [reportserver]="reportServer" [reporturl]="reportUrl"
+                    [showparameters]="showParameters" [language]="language" [width]="width"
+                    [height]="height" [toolbar]="toolbar" [ShowPrintButton]="true" >
+                </ssrs-reportviewer>
+            </div>
+        </div>
+    </div>
+
+</ng-template>

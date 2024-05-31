@@ -1,0 +1,74 @@
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">User Manager</h4>
+      <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+    </div>
+    <div class="modal-body">
+    <app-user-editor *ngIf="childList" (bindDropDownList)="bindDropDownList()" [childList]="childList"></app-user-editor>
+        
+    </div>
+    
+  </ng-template>
+    <!---Dashboard-->
+    
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> 
+          <button type="submit" class="btn btn-sm btn-primary" (click)="open(content)"
+          data-backdrop="static" data-keyboard="false" ><i class="cui-pencil icons"></i> Add</button>
+          <input matInput (keyup)="applyFilter($event.target.value)"  class="form-control w-25 p-3 border-bottom pull-right" placeholder="Search">
+        
+        </div>
+        <div class="card-body">  
+    <div class="example-container mat-elevation-z8">
+    
+      <mat-table [dataSource]="dataSource" matSort >
+          <ng-container matColumnDef="UserCode">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> <b>User SID </b></mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.UserCode}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="UserFullName">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> <b>User FullName </b></mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.UserFullName}} </mat-cell>
+            </ng-container>
+        <ng-container matColumnDef="RoleName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> <b>RoleName </b></mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.RoleName}} </mat-cell>
+        </ng-container>
+        <!-- ID Column -->
+        <ng-container matColumnDef="Lastmodified" class="header">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b> Last Modified</b> </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.Lastmodified}} </mat-cell>
+        </ng-container>   
+       
+       
+        <ng-container matColumnDef="IsActive">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> <b>Status</b> </mat-header-cell>
+          <mat-cell *matCellDef="let row" >             
+            <span *ngIf="row.IsActive" class="badge badge-success">Active</span>
+            <span *ngIf="!row.IsActive" class="badge badge-dark">In-Active</span>
+          </mat-cell>
+        </ng-container> 
+        <ng-container matColumnDef="actions">
+          <mat-header-cell  *matHeaderCellDef ></mat-header-cell>
+          <mat-cell *matCellDef="let row" >
+            <button type="submit" class="btn btn-sm btn-primary" (click)="edit(content,row.UserCode)" ><i class="fa fa-file"></i> View </button>
+          </mat-cell>
+        </ng-container>    
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+      </mat-table>
+    
+      <mat-paginator></mat-paginator>
+    </div>
+    
+    
+  </div>
+  </div>
+  </div>
+  
+  

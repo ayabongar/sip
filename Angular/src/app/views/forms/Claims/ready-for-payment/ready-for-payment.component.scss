@@ -1,0 +1,27 @@
+.card-header
+{
+    height:150px!important;
+}
+
+mat-table {
+  display: block;
+}
+
+::ng-deep .my-classR .modal-dialog {
+  max-width: 30%!important;
+  width: 30%;
+}
+
+.mat-input-element {
+  border-bottom: 1px solid red !important;
+  height: 0.375rem 0.75rem;
+}
+.spinner_loading {
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep .my-class1 .modal-dialog {
+  max-width: 90%;
+  width: 80%;
+}

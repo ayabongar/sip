@@ -1,0 +1,95 @@
+
+  <!-- ** END: INFORMATION MESSAGE AREA ** -->
+
+ 
+<ng-template #FileUploader let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">FILE UPLOADER</h4>
+      <button type="button" class="btn btn-outline-dark" (click)="closeModal(FileUploader)">Close</button>
+    </div>
+    <div class="modal-body">    
+          
+        <div class="row">
+            <textarea class="form-control"  [(ngModel)]="comment"  placeholder="File Comment" rows="3" required></textarea>
+        </div>
+        <label>Select a File (&lt; 5MB)</label>
+        <br/>
+        <input type="file" (change)="onFileChange($event)" />
+       
+       
+       
+  </div>
+  <div class="card-footer">
+    <button (click)="uploadFile()" [disabled]="!theFile">
+        Upload File
+      </button>
+    
+
+</div> 
+ 
+  
+  </ng-template>
+
+
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i>  
+        <button type="button" class="btn btn-outline-dark" (click)="openModal(FileUploader)">Upload File</button>        
+        <input matInput (keyup)="applyFilter($event.target.value)" class="form-control w-25 p-3 border-bottom pull-right"
+          placeholder="Search">
+  
+      </div>
+      <div class="card-body">
+        <div class="example-container mat-elevation-z8">
+  
+          <mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox   (change)="$event ? masterToggle($event) : null" [checked]="selection.hasValue() && isAllSelected() == true" [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+                
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox  #checkBox [value]="row" (change)="getCheckbox(checkBox)" (click)="$event.stopPropagation()" (change)="$event ? selectRow($event, row) : null" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row) == true">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="FileName">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> <b>FileName </b></mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.FileName}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="FileType">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> <b>FileType </b></mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.FileType}} </mat-cell>
+            </ng-container>
+            <!-- ID Column -->
+            <ng-container matColumnDef="FileSize" class="header">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>FileSize(KB) </b> </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.FileSize}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="comment" class="header">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>Comment </b> </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.comment}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell  *matHeaderCellDef ></mat-header-cell>
+                <mat-cell *matCellDef="let row" >
+                  <button type="button" class="btn btn-sm btn-primary" (click)="downloadFile(row.ObjectId, row.FileType)"><i class="fa fa-pencil"></i> Download </button>
+                  
+                </mat-cell>
+              </ng-container> 
+           
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+          </mat-table>
+  
+          <mat-paginator></mat-paginator>
+        </div>
+  
+  
+      </div>
+    </div>
+ 
+  

@@ -1,0 +1,145 @@
+<ng-template #claimEditor1 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">CLAIM EDITOR</h4>
+      <button type="button" class="btn btn-outline-dark" (click)="closeModal(claimEditor1)">Close</button>
+    </div>
+    <div class="modal-body">
+      <app-new-claims-editor *ngIf="queryString" [queryString]="queryString"></app-new-claims-editor>
+    
+    </div>
+  
+  </ng-template>
+  <ng-template #Reason let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">REASON EDITOR</h4>
+      <button type="button" class="btn btn-outline-dark" (click)="closeModal(Reason)">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <textarea class="form-control"    placeholder="Type Reason here..." [(ngModel)]="statusReason" rows="5" ></textarea>
+        <input type="hidden" [(ngModel)]="statusId"> 
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="submit" (click)="authorise()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit
+          </button>
+      
+  </div>
+  </ng-template>
+  
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i>
+     
+        <input matInput (keyup)="applyFilter($event.target.value)" class="form-control w-25 p-3 border-bottom pull-right"
+          placeholder="Search">
+  
+      </div>
+      <div class="card-body">
+        <div class="example-container mat-elevation-z8">
+  
+          <mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="ClaimGroupID">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> <b>GroupId </b></mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.ClaimGroupID}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="ClaimNumber">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> <b>ClaimNo </b></mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.ClaimNumber}} </mat-cell>
+            </ng-container>
+            <!-- ID Column -->
+            <ng-container matColumnDef="ClientAllias" class="header">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>ClientAllias </b> </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.ClientAllias}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="ClaimRange" class="header">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>ClaimRange </b> </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.ClaimRange}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="GroupStatus">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b> GroupStatus</b> </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <span *ngIf="row.GroupStatus ==='AWAITING APPROVAL'"
+                      class="badge badge-success">{{row.GroupStatus}}</span>
+                <span *ngIf="row.GroupStatus ==='READY FOR TRANSFER'"
+                      class="badge badge-success">{{row.GroupStatus}}</span>
+                <span *ngIf="row.GroupStatus ==='FINALIZED'"
+                      class="badge badge-success">{{row.GroupStatus}}</span>
+                <span *ngIf="row.GroupStatus ==='BOOKKEEPING'"
+                      class="badge badge-success">{{row.GroupStatus}}</span>
+                <span *ngIf="row.GroupStatus ==='REWORK'"
+                      class="badge badge-warning">{{row.GroupStatus}}</span>
+                <span *ngIf="row.GroupStatus ==='HOLD'"
+                      class="badge badge-danger">{{row.GroupStatus}}</span>
+                <span *ngIf="row.GroupStatus ==='SEND FOR APPROVAL'"
+                      class="badge badge-success">{{row.GroupStatus}}</span>
+                <span *ngIf="row.GroupStatus ==='ACCEPT'"
+                      class="badge badge-success">{{row.GroupStatus}}</span>
+                <span *ngIf="row.GroupStatus ==='REJECT'"
+                      class="badge badge-danger">{{row.GroupStatus}}</span>
+                <span *ngIf="row.GroupStatus ==='OTHER STATUS'"
+                      class="badge badge-warning">{{row.GroupStatus}}</span>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="ClaimStatus">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b> Status</b> </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <span *ngIf="row.ClaimStatus ==='AWAITING APPROVAL'"
+                      class="badge badge-success">{{row.ClaimStatus}}</span>
+                <span *ngIf="row.ClaimStatus ==='READY FOR TRANSFER'"
+                      class="badge badge-success">{{row.ClaimStatus}}</span>
+                <span *ngIf="row.ClaimStatus ==='FINALIZED'" class="badge badge-success">{{row.ClaimStatus}}</span>
+                <span *ngIf="row.ClaimStatus ==='BOOKKEEPING'" class="badge badge-success">{{row.ClaimStatus}}</span>
+                <span *ngIf="row.ClaimStatus ==='REWORK'" class="badge badge-warning">{{row.ClaimStatus}}</span>
+                <span *ngIf="row.ClaimStatus ==='HOLD'" class="badge badge-success">{{row.ClaimStatus}}</span>
+                <span *ngIf="row.ClaimStatus ==='SEND FOR APPROVAL'"
+                      class="badge badge-success">{{row.ClaimStatus}}</span>
+                <span *ngIf="row.ClaimStatus ==='ACCEPT'" class="badge badge-success">{{row.ClaimStatus}}</span>
+                <span *ngIf="row.ClaimStatus ==='REJECT'" class="badge badge-danger">{{row.ClaimStatus}}</span>
+                <span *ngIf="row.ClaimStatus ==='OTHER STATUS'" class="badge badge-warning">{{row.ClaimStatus}}</span>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <button type="submit" class="btn btn-sm btn-primary" (click)="goToClaimEditor(claimEditor1,row.ClientID,row.VehicleID,row.ClaimID,row.ClaimGroupID)"> Contine with Group </button>
+                |<button type="button" class="btn btn-sm btn-primary" (click)="printReport(Report,'GroupTotals',row.ClaimGroupID)">
+                    Group Claims
+                </button>
+
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+          </mat-table>
+  
+          <mat-paginator></mat-paginator>
+        </div>
+  
+  
+      </div>
+    </div>
+  </div>
+
+  <ng-template #Report let-modal>
+    <div class="card-footer">
+      <button type="submit" class="btn btn-sm btn-primary" (click)="SendGroupToSupervisor(_groupId)"><i class="fa fa-pencil"></i> Submit To Supervisor </button>
+      <button type="button" class="btn  btn-sm btn-outline-dark" (click)="close()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="container">
+          <ssrs-reportviewer [reportserver]="reportServer" [reporturl]="reportUrl"
+                             [language]="language" [width]="width"
+                             [height]="height" [toolbar]="toolbar" [showparameters]="false" [parameters]="parameters" [ShowPrintButton]="true">
+          </ssrs-reportviewer>
+        </div>
+      </div>
+    </div>
+
+
+  </ng-template>

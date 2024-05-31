@@ -1,0 +1,57 @@
+
+   
+      <div class="card-header">
+        <strong>CLIENT INFORMATION</strong> Form
+      </div>
+      <form [formGroup]="ClientInforForm" (ngSubmit)="onSubmit()"   class="was-validated">
+        <div class="card-body">
+        
+          <div class="row">
+              
+            <div class="form-group col-sm-2">
+              <label  for="Code">Code</label>
+              <input class="form-control" formControlName="strClientID" type="text"   >
+              <input *ngIf="IsClientIdHidden" class="form-control" formControlName="ClientID" type="text" data-ng-hide="textbox"   >
+       
+            </div>
+              <div class="form-group col-sm-6">
+                  <label  >Client Name</label>
+                  <input type="text" class="form-control" formControlName="ClientName" required >
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label  for="Code">Status</label>               
+                  <span *ngIf="clientActive" class="form-control badge badge-success">Active</span>
+                  <span *ngIf="!clientActive" class="form-control badge badge-danger">In-Active</span> </div>
+              </div>
+             <!-- <div class="form-group col-sm-2">
+                <label  for="Reference Date">Reference Date</label>
+                <input class="form-control"  type="date" formControlName="ClientRefDate"  placeholder="date" required>
+              </div>
+              <div class="form-group col-sm-2">
+                <label  for="ReferenceNumber">Reference Number</label>
+                <input type="text" class="form-control" formControlName="ClientRefNumber"  >
+              </div>-->
+            </div>
+          
+            
+           <!-- <div class="row">
+              <div class="form-group col-sm-4">
+                <label  for="RegistrationDate">Registration Date</label>
+                <input class="form-control"  formControlName="ClientEffectiveDate" type="date"  placeholder="date" required>
+            </div>
+            <div class="form-group col-sm-4">
+                <label  for="CancellationDate">Cancellation Date</label>
+                <input class="form-control" formControlName="ClientCancellationDate" type="date"  placeholder="date" >
+            </div>
+              
+              
+            </div>
+           
+            -->
+         
+        </div>
+      </form>
+  
+   
+     

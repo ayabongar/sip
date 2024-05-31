@@ -1,0 +1,82 @@
+
+
+<div class="card">
+
+  <div class="card-header">
+    <i class="fa fa-align-justify"></i> 
+    <!--<button type="submit" class="btn btn-sm btn-primary" (click)="open(content)"
+    data-backdrop="static" data-keyboard="false" ><i class="cui-pencil icons"></i> Add New Owner</button>-->
+    <input matInput (keyup)="applyFilter($event.target.value)"  class="form-control w-25 p-3 border-bottom pull-right" placeholder="Search owner">
+  
+  </div>
+  <div class="card-body">  
+  <div class="example-container mat-elevation-z8">
+  
+    <mat-table [dataSource]="dataSource" matSort >  
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+             
+      <ng-container matColumnDef="TitleDescription">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> <b>Title</b></mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.TitleDescription}} </mat-cell>
+      </ng-container>
+      <!-- ID Column -->
+      <ng-container matColumnDef="SurnameAndInitials" class="header">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SurnameAndInitials</b> </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.SurnameAndInitials}} </mat-cell>
+      </ng-container>   
+     
+      <ng-container matColumnDef="OwnerPassportNumber" class="header">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>PassportNo </b> </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.OwnerPassportNumber}} </mat-cell>
+        </ng-container> 
+        <ng-container matColumnDef="OwnerMaritalStatus" class="header">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>MaritalStatus </b> </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.OwnerMaritalStatus}} </mat-cell>
+        </ng-container> 
+        <ng-container matColumnDef="NationalityDescription" class="header">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Nationality </b> </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.NationalityDescription}} </mat-cell>
+        </ng-container> 
+     
+      <ng-container matColumnDef="actions">
+        <mat-header-cell  *matHeaderCellDef ></mat-header-cell>
+        <mat-cell *matCellDef="let row" >
+          <button type="submit" class="btn btn-sm btn-primary" (click)="edit(content,row.OwnerID)" ><i class="fa fa-file"></i> View </button>
+        </mat-cell>
+      </ng-container>    
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+  
+    <mat-paginator></mat-paginator>
+  </div>
+</div>
+</div>
+
+<ng-template #content let-modal>
+      
+     
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">OWNER EDITOR</h4>
+    <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+  </div>
+  <div class="modal-body">
+  <app-owner-editor *ngIf="ownerObject" [ownerObject]="ownerObject"></app-owner-editor>
+      
+  </div>
+  
+</ng-template>

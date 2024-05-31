@@ -1,0 +1,183 @@
+<div class="col-lg-12">
+  
+  <div *ngIf="!hasClaims" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      
+    </div><span class="visually-hidden">Loading...</span>
+  </div>
+
+  <ng-container *ngFor="let c of clientClaims">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+
+          <div class="form-group col-sm-4">
+
+
+            <label for="Code"> <b> Request Operation: </b>{{c.RequestOperation}}</label>
+          </div>
+          <div class="form-group col-sm-4">
+
+            <label><b>Invoice Type:</b> {{c.InvoiceType}} </label>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="Code"><b>Billing Source: </b> {{c.BillingSource}}  </label>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+
+          <div class="form-group col-sm-4">
+            <label for="Code"> <b> Group Reference No: </b>{{c.ReferenceNo}}</label>
+
+
+          </div>
+          <div class="form-group col-sm-4">
+            <label><b>Client Name:</b> {{c.ClientName}} </label>
+
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="Code"><b>Payment Method: </b> {{c.PaymentMethod}}  </label>
+
+
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="row">
+
+          <div class="form-group col-sm-4">
+
+            <label for="Code"><b>Limit Override: </b> {{c.LimitOverride}}  </label>
+
+          </div>
+          <div class="form-group col-sm-4">
+            <label><b>Status:</b> <span class="badge badge-warning">Awaiting Payment</span> </label>
+
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="Code"><b>Payable Total: </b> {{c.Value}}  </label>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="card-body">
+        <table class="mat-table cdk-table" style="width:100%">
+          <thead>
+            <tr class="mat-header-row cdk-header-row">
+              <th>TaxType</th>
+              <th>FinancialAccountNo</th>
+              <th>ClaimNo</th>
+             <!--<th>RevenueCode</th>-->
+             <!--<th>PaymentMethod</th>-->
+              <th>LiabilityDate</th>
+              <th>RefundRequestDate</th>
+              <!--<th>PortOfEntry </th>-->
+              <th>
+                PayableAmount
+
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of c.Invoices ">
+
+              <td>{{i.TaxType}}</td>
+              <td>{{i.FinancialAccountNo}}</td>
+              <td>{{i.ReferenceNo}}</td>
+              <!--<td>{{i.RevenueCode}}</td>-->
+              <!--<td>{{i.PaymentMethod}}</td>-->
+              <td>{{i.LiabilityDate}}</td>
+              <td>{{i.LiabilityDate}}</td>
+              <!--<td>{{i.PortOfEntry}}</td>-->
+              <td>{{i.PayableAmount}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-sm btn-success" (click)="openReasonBox(Reason,c.BillingReferenceNo)">
+          <i class="fa fa-dot-circle-o"></i> Finalise
+        </button>
+        |<button type="button" class="btn btn-sm btn-primary" (click)="printGroupReport(Report,'SapGroupTotals',c.ClientID,c.ReferenceNo)">
+          Group Claims
+        </button>
+      </div>
+
+    </div>
+
+  </ng-container>
+
+
+
+</div>
+
+
+<ng-template #Reason let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Payment Confirmation</h4>
+    <button type="button" class="btn btn-outline-dark" (click)="closeModal(Reason)">Close</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <label for="FuelTypeID">Enter the EFT number</label>
+      <input class="form-control" placeholder="EFT number..." [(ngModel)]="chequeNumber">
+      <input type="hidden" [(ngModel)]="statusId">
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="submit" (click)="ngFinalise(Report,'RefundOfExcise')" *ngIf="chequeNumber" class="btn btn-sm btn-primary" >
+      <i class="fa fa-dot-circle-o"></i> Submit
+    </button>
+
+  </div>
+</ng-template>
+<ng-template #Report let-modal>
+  <div class="card-footer">
+
+    <button type="button" class="btn  btn-sm btn-outline-dark" (click)="close()">Close</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="container">
+        <ssrs-reportviewer [reportserver]="reportServer" [reporturl]="reportUrl"
+                           [language]="language" [width]="width"
+                           [height]="height" [toolbar]="toolbar" [showparameters]="false" [parameters]="parameters" [ShowPrintButton]="true">
+        </ssrs-reportviewer>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>
+<ng-template #Report let-modal>
+  <div class="card-footer">
+    
+    <button type="button" class="btn  btn-sm btn-outline-dark" (click)="close()">Close</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="container">
+        <ssrs-reportviewer [reportserver]="reportServer" [reporturl]="reportUrl"
+                           [language]="language" [width]="width"
+                           [height]="height" [toolbar]="toolbar" [showparameters]="false" [parameters]="parameters" [ShowPrintButton]="true">
+        </ssrs-reportviewer>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>

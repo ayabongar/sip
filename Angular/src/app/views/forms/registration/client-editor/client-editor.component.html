@@ -1,0 +1,273 @@
+
+      <form [formGroup]="PopupForm" (ngSubmit)="onSubmit()" class="was-validated">
+        <div class=row>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-header">
+                <strong>GENERAL INFORMATION</strong> Form 
+              </div>
+
+              <div class="card-body">
+
+                <div class="row">
+
+
+                  <div class="form-group col-sm-8">
+                    <label>Client Name</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientName" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="inputSuccess1">Type</label>
+                    <select formControlName="ClientTypeID" class="form-control form-control-sm" required>
+                      <option value="">Select One.. </option>
+                      <option *ngFor="let c of clientType" [ngValue]="c.ClientTypeID">{{c.ClientTypeDescription}}
+                      </option>
+
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="Reference Date">Reference Date</label>
+                    <input class="form-control form-control-sm" type="date" formControlName="ClientRefDate"
+                      placeholder="date" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="Nationality">Nationality</label>
+                    <select formControlName="ClientNationalityID" class="form-control form-control-sm" required>
+                      <option value="">Select One.. </option>
+                      <option *ngFor="let c of clientNatiality" [ngValue]="c.NationalityID">{{c.NationalityDescription}}
+                      </option>
+
+                    </select>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="Code">Code</label>
+                      <input class="form-control form-control-sm" formControlName="strClientID" type="text" readonly>
+                      <input *ngIf="IsClientIdHidden" class="form-control form-control-sm" formControlName="ClientID"
+                        type="text" data-ng-hide="textbox">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="RegistrationDate">Registration Date</label>
+                    <input class="form-control form-control-sm" formControlName="ClientEffectiveDate" type="date"
+                      placeholder="date" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="CancellationDate">Cancellation Date</label>
+                    <input class="form-control form-control-sm" formControlName="ClientCancellationDate" type="date" required
+                      placeholder="date">
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="Code">Status</label>
+                      <span *ngIf="clientActive" class="form-control form-control-sm badge badge-success">Active</span>
+                      <span *ngIf="!clientActive"
+                        class="form-control form-control-sm badge badge-danger">In-Active</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+
+
+
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="ReferenceNumber">Reference Number</label>
+                      <input type="text" class="form-control form-control-sm" formControlName="ClientRefNumber">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <strong>CONTACT PERSON INFORMATION</strong> Form
+              </div>
+
+              <div class="card-body">
+
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="inputSuccess1">Title/Salutation</label>
+                    <select formControlName="ClientContactTitleID" class="form-control form-control-sm" required>
+                      <option value="">Select One.. </option>
+                      <option *ngFor="let c of clientTitle" [ngValue]="c.TitleID">{{c.TitleDescription}}</option>
+
+                    </select>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label>Initials</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientContactInitials" required>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="ReferenceNumber">Surname</label>
+                      <input type="text" class="form-control form-control-sm" formControlName="ClientContactSurname" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="Reference Date">Phone Number</label>
+                    <input class="form-control form-control-sm" type="text" formControlName="ClientContactPhone" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="Nationality">Cell No</label>
+                    <input class="form-control form-control-sm" type="text" formControlName="ClientContactCell" required>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="Code">Phone Code</label>
+                      <input class="form-control form-control-sm" formControlName="ClientContactPhoneCode" type="text" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="RegistrationDate">Facsimile Number</label>
+                    <input class="form-control form-control-sm" formControlName="ClientContactFax" type="text" required>
+                  </div>
+                  <div class="form-group col-sm-8">
+                    <label for="CancellationDate">Email Address</label>
+
+                    <div class="input-group">
+                      <input type="email" formControlName="ClientContactEMail" class="form-control form-control-sm" required
+                        placeholder="Email">
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-header">
+                <strong>PHYSICAL ADDRESS</strong> Form
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="inputError1">Buiding and Floor</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientAddress1" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="ReferenceNumber">Street and Number</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientAddress2" required>
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="Surbub">Surbub</label>
+                    <input class="form-control form-control-sm" formControlName="ClientAddress3" type="TEXT" required>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="inputError1">Town/City</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientAddress4" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="ClientAddressPostCode">Postal Code</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientAddressPostCode"
+                      required>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!------------------Physical---------------->
+            <div class="card">
+              <div class="card-header">
+                <strong>POSTAL ADDRESS</strong> Form
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="inputError1">Postal Address</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientPostal1" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="inputError1">Town/City</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientPostal2" required>
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="Surbub">Surbub</label>
+                    <input class="form-control form-control-sm" formControlName="ClientPostal3" type="TEXT" required>
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class="form-group col-sm-4">
+                    <label for="ReferenceNumber">Postal Code</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientPostalPostCode"
+                      required>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!------------------Banking Details---------------->
+            <div class="card">
+              <div class="card-header">
+                <strong>BANKING DETAILS</strong> Form
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="inputError1">Account Number</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientBankAccount"
+                      required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="ReferenceNumber">Account Type</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientBankAccountType"
+                      required>
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="Surbub">Institutions Name</label>
+                    <input class="form-control form-control-sm" formControlName="ClientBankName" type="text" required>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="inputError1">Branch Code</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientBankBranchCode"
+                           required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="ReferenceNumber">Allias</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="ClientAllias" required>
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="Surbub">Miscellaneous Account Number</label>
+                    <input class="form-control form-control-sm" formControlName="MiscellaneousAccount" type="text" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <app-file-upload *ngIf="FileQueryString.IdProvided" [FileQueryString]="FileQueryString"></app-file-upload>  
+        <div class="card-footer">
+          <button type="submit" *ngIf="PopupForm.valid" class="btn btn-sm btn-success"><i
+              class="fa fa-dot-circle-o"></i> Submit</button>
+          <button type="button" class="btn btn-sm btn-outline-dark" (click)="Close()"><i class="fa fa-ban"></i>
+            Close</button>
+        </div>
+      </form>

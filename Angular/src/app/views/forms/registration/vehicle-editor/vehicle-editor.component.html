@@ -1,0 +1,293 @@
+
+
+    <form [formGroup]="AmbassyForm" (ngSubmit)="onSubmit()"   class="was-validated">
+        <div class=row>
+
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-header">
+                <strong>VEHICLE INFORMATION</strong> Form
+              </div>
+
+              <div class="card-body">
+                <div class="row" *ngIf="vehicleObject.Mode == 'New'">
+                  <div class="form-group col-sm-12">
+                    <label for="ClientID">Select Client</label>
+                    <select  formControlName="ClientID" class="form-control" required (change)='onOnclientSelected($event)'>
+                      <option value="">Select One.. </option>
+                      <option *ngFor="let c of clients" [ngValue]="c.ClientID">{{c.ClientName}}</option>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="VehicleRefNumber">
+                      Note Verbale
+                    </label>
+
+                    <input type="text" class="form-control" formControlName="VehicleRefNumber" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label>Reference Date</label>
+                    <input appDateMask type="text" class="form-control" formControlName="VehicleRefDate" required placeholder="date">
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="VehicleRegistration">Registration Number</label>
+                    <input type="text" class="form-control" formControlName="VehicleRegistration">
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="VehicleEffectiveDate">Effective Date</label>
+                    <input class="form-control" appDateMask type="text" formControlName="VehicleEffectiveDate" placeholder="date" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="VehicleMake">Make</label>
+                    <input type="text" class="form-control" formControlName="VehicleMake" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="VehicleModel">Model</label>
+                    <input type="text" class="form-control" formControlName="VehicleModel" required>
+                  </div>
+                </div>
+                <div class="row">
+
+
+                  <div class="form-group col-sm-4">
+                    <label for="VehicleTankCapacity">Litres</label>
+                    <input type="text" class="form-control" formControlName="VehicleTankCapacity" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="VehicleCancellationDate">Deregistered Date</label>
+                    <input type="text" appDateMask class="form-control" formControlName="VehicleCancellationDate" placeholder="date" required>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="Status">Status</label>
+                    <span *ngIf="vehicleStatus == 'Active'" class="form-control badge badge-success">Active</span>
+                    <span *ngIf="vehicleStatus== 'Inactive'" class="form-control badge badge-danger">In-Active</span>
+
+                  </div>
+                  <!--<div class="form-group col-sm-4">
+        <label  for="TemporaryRegistration">Temp Registration</label>
+        <input type="text" class="form-control" formControlName="TemporaryRegistration"  > </div>-->
+                  <!--<div class="form-group col-sm-4">
+            <label  for="VehiclePurchaseDate">Purchase Date</label>
+            <input class="form-control"  type="date" formControlName="VehiclePurchaseDate"  placeholder="date" required>
+        </div>-->
+                </div>
+                <div class="row">
+
+                  <div class="form-group col-sm-12">
+                    <label for="VehiclesVIN">Vehicle Identification Number</label>
+                    <input type="text" class="form-control" formControlName="VehiclesVIN" required>
+                  </div>
+
+
+                  <!--<div class="form-group col-sm-4">
+          <label  for="RegistrationReason">Registration Reason</label>
+          <input type="text" class="form-control" formControlName="RegistrationReason" required ></div>-->
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="VehicleType">Vehicle  Type</label><br />
+                    <!--<select formControlName="VehicleType" class="form-control" required>
+      <option value="">Select One..  </option>
+      <option value="T">Temporary </option>
+      <option value="P">Permanent </option>
+
+    </select>-->
+
+                    <mat-radio-group formControlName="VehicleType" aria-label="Select an option">
+                      <mat-radio-button value="T">Temporary</mat-radio-button>
+                      <mat-radio-button value="P">Permanent</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+
+
+
+                  <div class="form-group col-sm-4">
+                    <label for="FuelTypeID">Fuel Type</label><br />
+                    <mat-radio-group formControlName="FuelTypeID" aria-label="Select an option">
+                      <mat-radio-button value="1"> Petrol </mat-radio-button><br />
+                      <mat-radio-button value="2">Diesel</mat-radio-button>
+                    </mat-radio-group>
+
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="OwnerType">	Owner Type</label><br />
+
+                    <mat-radio-group    formControlName="OwnerType" aria-label="Select an option" >
+                      <mat-radio-button  value="P" (change)="changeOwnerType($event)"> Private </mat-radio-button><br />
+                      <mat-radio-button value="O" (change)="changeOwnerType($event)">Official</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+
+                </div>
+
+
+
+              </div>
+
+
+            </div>
+            <div class="card" *ngIf="FileQueryString.IdProvided">
+
+              <div class="card-header">
+                <strong>Vehicles</strong> Reports
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <a class='btn' style="cursor:pointer"
+                     (click)="openReport(Report,'RegistrationInFuelRefundScheme');">
+                    Registration for Participation
+                    in the Fuel Refund Scheme
+                  </a>
+                </div>
+                <div class="row">
+                  <a class='btn' style="cursor:pointer"
+                     (click)="openReport(Report,'AmendmentInFuelRefundScheme');">
+                    Amendment for Participation in the
+                    Fuel Refund Scheme
+                  </a>
+                </div>
+                <div class="row">
+                  <a class='btn' style="cursor:pointer"
+                     (click)="openReport(Report,'DeRegistrationInRefundScheme');">
+                    De-Registration for Participation
+                    in Fuel Refund Scheme
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!--app-file-upload *ngIf="FileQueryString.IdProvided"  [FileQueryString]="FileQueryString"></app-file-upload>-->
+          </div>
+<div  class="col-sm-6" >
+
+ 
+    
+    <div class="card" *ngIf="ownerType=='P'">
+      
+      <div class="card-header">
+        <strong>OWNER INFORMATION</strong>  <select formControlName="OwnerID" class="form-control w-25 p-3 border-bottom pull-right" (change)='onOwnerSelected($event)'>
+          <option value="0">Clear a Form.. </option>
+          <option *ngFor="let o of onwers" [ngValue]="o.OwnerID">{{o.SurnameAndInitials}}  </option>
+
+        </select>
+      </div> 
+    <div class="card-body">   
+    <div class="row">
+   
+      <div class="form-group col-sm-8">
+        
+        
+          
+          
+  
+      </div>
+    </div>
+<div class="row">
+  <div class="form-group col-sm-4">
+    <label  for="OwnerSurname">
+      Surname</label>
+    
+    <input type="text" class="form-control" formControlName="OwnerSurname"   >
+  </div>
+  <div class="form-group col-sm-4">
+    <label  >Initials</label>
+      <input type="text" class="form-control" formControlName="OwnerInitials"   >
+  </div>
+  <div class="form-group col-sm-4">
+    <label  for="VehicleRegistration">Title/Salutation</label>
+    <select formControlName="TitleID"    class="form-control"  >        
+      <option value="">Select One.. </option>
+      <option *ngFor="let c of clientTitle" [ngValue]="c.TitleID">{{c.TitleDescription}}</option>    
+      
+    </select>
+  </div>
+
+</div>
+<div class="row">
+  <div class="form-group col-sm-4">
+    <label  for="OwnerPassportNumber">
+      Passport</label>
+    
+    <input type="text" class="form-control" formControlName="OwnerPassportNumber"   >
+  </div>
+  <div class="form-group col-sm-4">
+    <label  >Rank</label>
+    <select formControlName="RankID"    class="form-control"  >
+      <option value="">Select One.. </option>
+      <option *ngFor="let c of ownerRank" [ngValue]="c.RankID">{{c.RankDescription}}</option>  
+      
+    </select>
+  </div>
+  <div class="form-group col-sm-4">
+    <label  for="NationalityID">Nationality</label>
+    <select formControlName="NationalityID"    class="form-control"  >
+      <option value="">Select One.. </option>
+      <option *ngFor="let c of clientNatiality" [ngValue]="c.NationalityID">{{c.NationalityDescription}}</option>  
+      
+      
+    </select>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="form-group col-sm-4">
+    <label  for="OwnerMaritalStatus">
+      Marital Status</label>
+    
+      <select formControlName="OwnerMaritalStatus"    class="form-control"  >
+          <option value="99">Select One..  </option>
+          <option value="1">Married </option>
+          <option value="0">Single </option>
+          
+        </select>
+  </div>
+ 
+</div>
+
+   
+  </div>
+</div> 
+</div>
+        </div>
+        <div class="card-footer">
+          <button type="submit" *ngIf="AmbassyForm.valid" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> Submit</button>
+          
+          <!-- <button type="button" class="btn btn-sm btn-outline-dark" (click)="findInvalidControls();"><i class="fa fa-ban"  ></i> Close 1</button>
+  -->
+        </div>
+    </form>
+    <ng-template #Report let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{reportName}}</h4>
+        <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="container">
+            <ssrs-reportviewer [reportserver]="reportServer" [reporturl]="reportUrl"
+                               [showparameters]="showParameters" [language]="language" [width]="width"
+                               [height]="height" [toolbar]="toolbar" [ShowPrintButton]="true">
+            </ssrs-reportviewer>
+          </div>
+        </div>
+      </div>
+
+    </ng-template>
+  <!-----Contact Information--> 
+  
+  <p>
+    <!--Form Value: {{ PopupForm.value | json }}
+    
+    (click)="findInvalidControls()"
+    -->
+
+
+  </p>
+
+  

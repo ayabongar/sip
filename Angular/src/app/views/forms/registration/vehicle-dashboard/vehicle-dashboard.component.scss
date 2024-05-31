@@ -1,0 +1,38 @@
+::ng-deep .my-class .modal-dialog { 
+    max-width: 85%;
+    width: 85%;
+}
+.mat-input-element{
+    border-bottom:1px solid red!important;
+    
+    height: 0.375rem 0.75rem;   
+    
+}
+
+
+  
+ 
+  
+  .mat-column-select {
+    overflow: visible;
+  }
+  .mat-checkbox-inner-container{
+    display: inline-block;
+    height: 25px;
+    line-height: 0;
+    margin: auto;
+    margin-right: 8px;
+    order: 0;
+    position: relative;
+    vertical-align: middle;
+    white-space: nowrap;
+    
+    flex-shrink: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+     display: none; 
+  }
+
+  
+  

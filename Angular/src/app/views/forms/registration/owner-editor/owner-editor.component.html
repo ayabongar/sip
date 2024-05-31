@@ -1,0 +1,158 @@
+
+
+    <form [formGroup]="AmbassyForm" (ngSubmit)="onSubmit()"   class="was-validated">
+      <div class=row>
+
+<div  class="col-sm-6" >
+
+
+  
+  <div class="card">
+    
+  <div class="card-header">
+    <strong>OWNER INFORMATION</strong> Form
+  </div> 
+  <div class="card-body">   
+
+<div class="row">
+<div class="form-group col-sm-4">
+  <label  for="OwnerSurname">
+    Surname</label>
+  
+  <input type="text" class="form-control" formControlName="OwnerSurname"  required >
+</div>
+<div class="form-group col-sm-4">
+  <label  >Initials</label>
+    <input type="text" class="form-control" formControlName="OwnerInitials"  required >
+</div>
+<div class="form-group col-sm-4">
+  <label  for="VehicleRegistration">Title/Salutation</label>
+  <select formControlName="TitleID"    class="form-control"   required>        
+    <option value="">Select One.. </option>
+    <option *ngFor="let c of clientTitle" [ngValue]="c.TitleID">{{c.TitleDescription}}</option>    
+    
+  </select>
+</div>
+
+</div>
+<div class="row">
+<div class="form-group col-sm-4">
+  <label  for="OwnerPassportNumber">
+    Passport</label>
+  
+  <input type="text" class="form-control" formControlName="OwnerPassportNumber"   required >
+</div>
+<div class="form-group col-sm-4">
+  <label  >Rank</label>
+  <select formControlName="RankID"    class="form-control"  required >
+    <option value="">Select One.. </option>
+    <option *ngFor="let c of ownerRank" [ngValue]="c.RankID">{{c.RankDescription}}</option>  
+    
+  </select>
+</div>
+<div class="form-group col-sm-4">
+  <label  for="NationalityID">Nationality</label>
+  <select formControlName="NationalityID"    class="form-control"  required >
+    <option value="">Select One.. </option>
+    <option *ngFor="let c of clientNatiality" [ngValue]="c.NationalityID">{{c.NationalityDescription}}</option>  
+    
+    
+  </select>
+</div>
+
+</div>
+
+<div class="row">
+<div class="form-group col-sm-4">
+  <label  for="OwnerMaritalStatus">
+    Marital Status</label>
+  
+    <select formControlName="OwnerMaritalStatus"    class="form-control"  required >
+        <option value="99">Select One..  </option>
+        <option value="1">Married </option>
+        <option value="0">Single </option>
+        
+      </select>
+</div>
+
+</div>
+
+<app-file-upload *ngIf="FileQueryString.IdProvided"  [FileQueryString]="FileQueryString"></app-file-upload> 
+</div>
+</div> 
+</div>
+<div class="col-sm-6">
+  <div class="card">
+    <div class="card-header">
+      
+      <strong>Owner's Vehicles</strong> dashboard
+    </div>
+    <div class="card-body">  
+  <div class="example-container mat-elevation-z8">
+  
+  <mat-table [dataSource]="dataSource" matSort >  
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+           
+    <ng-container matColumnDef="ClientAllias">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> <b>Client Name </b></mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.ClientAllias}} </mat-cell>
+    </ng-container>
+    <!-- ID Column -->
+    <ng-container matColumnDef="VehicleRegistration" class="header">
+      <mat-header-cell *matHeaderCellDef mat-sort-header><b>VehicleReg.No </b> </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.VehicleRegistration}} </mat-cell>
+    </ng-container>   
+   
+    <ng-container matColumnDef="VehicleRefNumber" class="header">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Ref No. </b> </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.VehicleRefNumber}} </mat-cell>
+      </ng-container> 
+      <ng-container matColumnDef="VehicleCancellationDate" class="header">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>CancellationDate </b> </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.VehicleCancellationDate}} </mat-cell>
+      </ng-container> 
+  
+    <ng-container matColumnDef="VehicleStatus">
+      <mat-header-cell *matHeaderCellDef mat-sort-header><b>  Vehicle Status</b> </mat-header-cell>
+      <mat-cell *matCellDef="let row" >             
+        <span *ngIf="row.VehicleStatus =='Active'" class="badge badge-success">Active</span>
+        <span *ngIf="row.VehicleStatus =='InActive'" class="badge badge-danger">In-Active</span>
+      </mat-cell>
+    </ng-container> 
+      
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+  
+  <mat-paginator></mat-paginator>
+  </div>
+  
+  
+  </div>
+  </div>
+</div>
+
+      </div>
+      <div class="card-footer">
+          <button type="submit" *ngIf="AmbassyForm.valid" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> Submit</button>
+         <!-- <button type="button" class="btn btn-sm btn-outline-dark" (click)="findInvalidControls();"><i class="fa fa-ban"  ></i> Close 1</button>
+      -->
+        </div>
+  </form>
+  
+
+
