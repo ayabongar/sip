@@ -27,7 +27,7 @@
                     </label>
 
                     <input type="text" class="form-control" formControlName="VehicleRefNumber" required>
-                  </div>
+<button (click)="deregisterVehicle(vehicle.id)">Deregister</button>
                   <div class="form-group col-sm-4">
                     <label>Reference Date</label>
                     <input appDateMask type="text" class="form-control" formControlName="VehicleRefDate" required placeholder="date">
