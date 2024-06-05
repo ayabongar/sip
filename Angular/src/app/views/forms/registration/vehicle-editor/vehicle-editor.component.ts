@@ -427,6 +427,18 @@ close() {
     this.ownerType = data.value;
   }
 
+
+  // New method to deregister a vehicle
+  deregisterVehicle(vehicleId: number): void {
+    this.vehicleService.deregisterVehicle(vehicleId).subscribe(response => {
+      console.log('Vehicle deregistered successfully', response);
+      // Add any additional logic here, like updating the UI or showing a success message.
+    }, error => {
+      console.error('Error deregistering vehicle', error);
+      // Add error handling logic here.
+    });
+  }
+
 }
 
 
