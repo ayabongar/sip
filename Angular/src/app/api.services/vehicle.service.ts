@@ -35,21 +35,25 @@ export class VehicleService {
         return this.httpclient.get(path + id, {withCredentials: true});    
       }
 
-      public SelectVehicleByOwnerId(id:string): Observable<any> {
+      public SelectVehicleByOwnerId(id: string): Observable<any> {
         const path = environment.apiEndpoint + 'Vehicles/SelectVehicleByOwnerId?ownerId=';
         return this.httpclient.get(path + id, {withCredentials: true});    
       }
 
-      public InsertIntoVehicle(body: any) : Observable<any>{      
-      const headers = { 'content-type': 'application/json'};       
+      public InsertIntoVehicle(body: any): Observable<any> {
+      const headers = { 'content-type': 'application/json'};
       const path = environment.apiEndpoint + 'Vehicles/InsertIntoVehicle';
       return this.httpclient.post(path, body, {headers: headers, observe: 'response', withCredentials: true});
     }
 
-    public UpdateVehicle(body: any) : Observable<any>{      
-    const headers = { 'content-type': 'application/json'};       
+    public UpdateVehicle(body: any): Observable<any> {
+    const headers = { 'content-type': 'application/json'};
     const path = environment.apiEndpoint + 'Vehicles/UpdateVehicle';
     return this.httpclient.post(path, body, {headers: headers, observe: 'response', withCredentials: true});
+  }
+  public CheckDuplicateVehicle(vehicleRegistration: string, VehicleID: string): Observable<any> {
+    const path = environment.apiEndpoint + `Vehicles/CheckDuplicateVehicle?registration=${vehicleRegistration}&vehicleID=${VehicleID}`;
+    return this.httpclient.get(path, { withCredentials: true });
   }
 
   // New method to deregister a vehicle
@@ -59,10 +63,4 @@ export class VehicleService {
   }
 
 }
-
-  // New method to deregister a vehicle
-  public deregisterVehicle(vehicleId: number): Observable<any> {
-    const path = environment.apiEndpoint + 'Vehicles/DeregisterVehicle?vehicleId=' + vehicleId;
-    return this.httpclient.post(path, { withCredentials: true });
-  }
 

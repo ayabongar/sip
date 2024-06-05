@@ -27,13 +27,13 @@ import { Router } from '@angular/router';
   selector: 'app-vehicle-editor',
   templateUrl: './vehicle-editor.component.html',
   styleUrls: ['./vehicle-editor.component.scss']
-  
+
 })
 export class VehicleEditorComponent implements OnInit {
-  @Output("bindGridViewEmitter") bindGridViewEmitter: EventEmitter<any> = new EventEmitter();
-  //@Output() bindGrindView = new EventEmitter();
-  childClientObject:csClient;
-  @Input() vehicleObject:csVehicles ;
+  @Output('bindGridViewEmitter') bindGridViewEmitter: EventEmitter<any> = new EventEmitter();
+  // @Output() bindGrindView = new EventEmitter();
+  childClientObject: csClient;
+  @Input() vehicleObject: csVehicles ;
   isClinetActive: string;
   vehicleStatus: string;
   clientTitle: any;
@@ -41,28 +41,30 @@ export class VehicleEditorComponent implements OnInit {
   ownerRank: any;
   vehicleResults: any;
   vehicle: any;
-  onwers:any;
-  
-  public listObject: any = []; 
+  onwers: any;
+
+  public listObject: any = [];
   dataSource: MatTableDataSource<csOwner>;
-  displayedColumns = ['TitleDescription','SurnameAndInitials','OwnerPassportNumber','OwnerMaritalStatus','NationalityDescription','actions'];
+  displayedColumns = ['TitleDescription', 'SurnameAndInitials', 'OwnerPassportNumber',
+  'OwnerMaritalStatus', 'NationalityDescription', 'actions'];
   selection = new SelectionModel<csOwner>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   panelOpenState = false;
   modalHeader: string;
   OwnerId: any;
-  Owner:csOwner;
+  Owner: csOwner;
   FileQueryString: FileQueryString;
     reportServer: any;
     reportName: string;
     reportUrl: string;
     modalRef: any;
-  ownerType: string
+  ownerType: string;
     clients: any;
-  constructor(private clientForm: UntypedFormBuilder,private _clientService:ClientService,private _lookups:lookupService,
-    private _vehiclesService: VehicleService, private _ownerService: OwnerService, private modalService: NgbModal, private router: Router) {}
-  AmbassyForm = this.clientForm.group({      
+  constructor(private clientForm: UntypedFormBuilder, private _clientService: ClientService, private _lookups: lookupService,
+    private _vehiclesService: VehicleService, private _ownerService: OwnerService,
+    private modalService: NgbModal, private router: Router) {}
+  AmbassyForm = this.clientForm.group({
     VehicleRegistration: ['', Validators.required],
     VehicleRefNumber:['', Validators.required],
     VehicleRefDate: ['', Validators.required],
@@ -77,35 +79,34 @@ export class VehicleEditorComponent implements OnInit {
     FuelTypeID: ['', Validators.required],
     VehicleType: ['', Validators.required],
     OwnerType: ['', Validators.required],
-    OwnerID: [],   
-    RegistrationReason:[''],
-    VehicleStatus:[],
-    ClientTypeID:new UntypedFormControl({value: '', readonly: true}, Validators.required),
-    //Onwner information
+    OwnerID: [],
+    RegistrationReason: [''],
+    VehicleStatus: [],
+    ClientTypeID: new UntypedFormControl({value: '', readonly: true}, Validators.required),
+    // Onwner information
     OwnerInitials: [''],
     OwnerSurname: [''],
-    OwnerPassportNumber:[''],
-    OwnerMaritalStatus:[''],
-    TitleID:[''],
-    NationalityID:[''],
+    OwnerPassportNumber: [''],
+    OwnerMaritalStatus: [''],
+    TitleID: [''],
+    NationalityID: [''],
     RankID: [''],
     ClientID: ['']
-    
+
   });
-  
+
 
    ngOnInit(): void {
-    this.BindDropdownlist();    
+    this.BindDropdownlist();
     this.BindVehicleDetails();
    // console.log("vehicle ID: " + this.vehicleObject.VehicleID);
-    //this.bindOnwerList();
-    //this.GetClientByid(this.vehicleObject.ClientID.toString());
-    //console.log("Client ID: " + this.vehicleObject.ClientID.toString() )
-  
+    // this.bindOnwerList();
+    // this.GetClientByid(this.vehicleObject.ClientID.toString());
+    // console.log("Client ID: " + this.vehicleObject.ClientID.toString() )
+
   }
 
-  BindDropdownlist()
-  {
+  BindDropdownlist() {
     this._clientService.GetAllClient()
       .subscribe
       (
@@ -113,7 +114,7 @@ export class VehicleEditorComponent implements OnInit {
           this.clients = data;
         }
     );
-    if (this.vehicleObject.ClientID != undefined) {
+    if (this.vehicleObject.ClientID !== undefined) {
       this._ownerService.SelectOwnerByClientId(this.vehicleObject.ClientID)
         .subscribe
         (
@@ -127,50 +128,49 @@ export class VehicleEditorComponent implements OnInit {
     .subscribe
     (
         data => {
-          this.clientTitle = data;        
-        }        
-    );  
+          this.clientTitle = data;
+        }
+    );
 
     this._lookups.GetClientNatinality()
     .subscribe
     (
         data => {
-          this.clientNatiality = data;                
-        }        
-    );  
+          this.clientNatiality = data;
+        }
+    );
 
     this._lookups.GetRank()
     .subscribe
     (
         data => {
-          this.ownerRank = data;                       
-        }        
-    );  
+          this.ownerRank = data;
+        }
+    );
   }
 
 
 
   BindVehicleDetails() {
-    var currentDate = new Date()
-    var vehicleDeregistered = new Date(this.vehicleObject.VehicleCancellationDate)
+    let currentDate = new Date();
+    let vehicleDeregistered = new Date(this.vehicleObject.VehicleCancellationDate)
     this.FileQueryString = new FileQueryString();
     this.FileQueryString.IdProvided = false;
-   
-    if (vehicleDeregistered >= currentDate) {
-      this.vehicleStatus = "Active";
 
-    }
-    else {
-      this.vehicleStatus = "Inactive";
+    if (vehicleDeregistered >= currentDate) {
+      this.vehicleStatus = 'Active';
+
+    } else {
+      this.vehicleStatus = 'Inactive';
 
     }
     this.AmbassyForm.patchValue({
-      VehicleCancellationDate: formatDate(new Date("9999/01/01"), 'yyyy-MM-dd', 'en-US'),
-    })
-    if (this.vehicleObject.Mode != "New") {
+      VehicleCancellationDate: formatDate(new Date('9999/01/01'), 'yyyy-MM-dd', 'en-US'),
+    });
+    if (this.vehicleObject.Mode !== 'New') {
 
       // console.log("mode " + this.vehicleObject.Mode)
-      this.ngSetFileVariables(0, this.vehicleObject.VehicleID, 0, 0)
+      this.ngSetFileVariables(0, this.vehicleObject.VehicleID, 0, 0);
       this.AmbassyForm.patchValue({
         VehicleRegistration: this.vehicleObject.VehicleRegistration,
         VehicleRefNumber: this.vehicleObject.VehicleRefNumber,
@@ -190,8 +190,8 @@ export class VehicleEditorComponent implements OnInit {
         RegistrationReason: this.vehicleObject.RegistrationReason,
         VehicleStatus: this.vehicleStatus,
       });
-      this.ownerType = this.vehicleObject.OwnerType
-      //console.log("this.ownerType," + this.ownerType)
+      this.ownerType = this.vehicleObject.OwnerType;
+      // console.log("this.ownerType," + this.ownerType)
       if (this.vehicleObject.OwnerID > 0) {
         this._ownerService.SelectOwnerById(this.vehicleObject.OwnerID)
           .subscribe
@@ -206,105 +206,107 @@ export class VehicleEditorComponent implements OnInit {
                 OwnerPassportNumber: this.Owner.OwnerPassportNumber,
                 RankID: this.Owner.RankID,
                 NationalityID: this.Owner.NationalityID,
-                OwnerMaritalStatus: this.Owner.OwnerMaritalStatus == 'true' ? 1 : 0
+                OwnerMaritalStatus: this.Owner.OwnerMaritalStatus === 'true' ? 1 : 0
 
               });
             }
           );
       }
-    }
-    else {
+    } else {
       this.vehicleObject.ClientID = 0;
     }
 }
-  onSubmit(){
-   
-    if(this.vehicleObject.VehicleID <= 0){
-     this.InsertVehicleInfo();      
-    }
-    else{
+  onSubmit() {
+
+    if (this.vehicleObject.VehicleID <= 0) {
+     this.InsertVehicleInfo();
+    } else {
       this.UpdateVehicleInfo();
-      
-    }   
-  }
-
-  InsertVehicleInfo(){
-    this.vehicle = this.AmbassyForm.value;
-   // console.log('vehicle Id:' + this.vehicleObject.ClientID)    
-    this.vehicle.ClientID = this.vehicleObject.ClientID;
-    var effectiveDate = new Date(this.vehicle.VehicleEffectiveDate);
-    var refDate = new Date(this.vehicle.VehicleRefDate);
-    
-    if (effectiveDate > refDate) {
-      confirm('The vehicle effective date cannot be greater than the Reference Date')
-      return
     }
-   
-    this.vehicle.VehiclePurchaseDate = new Date()
-
-    this._vehiclesService.InsertIntoVehicle(this.vehicle)
-          .subscribe
-          (
-            (response) => {
-              this.bindGridViewEmitter.emit();
-              this.vehicleResults = response.message;
-              this.vehicleObject.VehicleID = response.body.VehicleID;
-              //console.log(JSON.stringify(this.vehicleObject.VehicleID))
-              this.ngGetVehicleByID(this.vehicleObject.VehicleID)
-              this.BindVehicleDetails();
-              this.FileQueryString.IdProvided = true;
-              if (response.body.OwnerStatus != null) {      
-                
-                this.FileQueryString.IdProvided = true;
-                confirm('Vehicle saved successfully ' + response.body.OwnerStatus);
-              }
-              else {                
-                var c = confirm('Vehicle inserted successfully.Do you want to print letter?');
-                
-                if (c == false) {
-                  console.log("fonfi: " + c)
-                  this.close();
-                  this.router.navigate(
-                    ['registration/vehicles'],
-                    { queryParams: { 'clientId': '' } }
-                  );
-                }
-              }
-            },
-            (error) => {
-              console.error(error.message);
-              confirm('custom Errormessage: ' + error.message);
-            }
-          );
   }
 
-  UpdateVehicleInfo(){
-   this.vehicle=this.AmbassyForm.value; 
+  InsertVehicleInfo()  {
+    this.vehicle = this.AmbassyForm.value;
+   // console.log('vehicle Id:' + this.vehicleObject.ClientID)
+    this.vehicle.ClientID = this.vehicleObject.ClientID;
+    let effectiveDate = new Date(this.vehicle.VehicleEffectiveDate);
+    let refDate = new Date(this.vehicle.VehicleRefDate);
 
-    this.vehicle.ClientID= this.vehicleObject.ClientID;
-    this.vehicle.VehicleID    =this.vehicleObject.VehicleID  
-    var effectiveDate = new Date(this.vehicle.VehicleEffectiveDate);
-    var refDate = new Date(this.vehicle.VehicleRefDate);
-    //console.log("effectiveDate" + effectiveDate)
+    if (effectiveDate > refDate) {
+      confirm('The vehicle effective date cannot be greater than the Reference Date');
+      return;
+    }
+
+    this.vehicle.VehiclePurchaseDate = new Date();
+
+      // Check for duplicate vehicles
+    this._vehiclesService.CheckDuplicateVehicle(this.vehicle.VehicleRegistration, this.vehicle.VehicleID)
+    .subscribe({
+      next: (duplicateCheckResponse) => {
+        if (duplicateCheckResponse.duplicate) {
+          confirm('A vehicle with the same registration number or VIN already exists.');
+        } else {
+          // Proceed with vehicle insertion
+          this._vehiclesService.InsertIntoVehicle(this.vehicle)
+            .subscribe({
+              next: (insertResponse) => {
+                this.bindGridViewEmitter.emit();
+                this.vehicleResults = insertResponse.message;
+                this.vehicleObject.VehicleID = insertResponse.body.VehicleID;
+                this.ngGetVehicleByID(this.vehicleObject.VehicleID);
+                this.BindVehicleDetails();
+                this.FileQueryString.IdProvided = true;
+                if (insertResponse.body.OwnerStatus != null) {
+                  this.FileQueryString.IdProvided = true;
+                  confirm('Vehicle saved successfully ' + insertResponse.body.OwnerStatus);
+                } else {
+                  const c = confirm('Vehicle inserted successfully. Do you want to print the letter?');
+                  if (!c) {
+                    this.close();
+                    this.router.navigate(['registration/vehicles'], { queryParams: { 'clientId': '' } });
+                  }
+                }
+              },
+              error: (insertError) => {
+                console.error(insertError.message);
+                confirm('custom Errormessage: ' + insertError.message);
+              }
+            });
+        }
+      },
+      error: (duplicateCheckError) => {
+        console.error(duplicateCheckError.message);
+        confirm('Error checking for duplicate vehicle: ' + duplicateCheckError.message);
+      }
+    });
+  }
+
+  UpdateVehicleInfo() {
+   this.vehicle = this.AmbassyForm.value;
+
+    this.vehicle.ClientID = this.vehicleObject.ClientID;
+    this.vehicle.VehicleID = this.vehicleObject.VehicleID;
+    let effectiveDate = new Date(this.vehicle.VehicleEffectiveDate);
+    let refDate = new Date(this.vehicle.VehicleRefDate);
+    // console.log("effectiveDate" + effectiveDate)
    // console.log("refDate" + refDate)
     if (effectiveDate > refDate) {
-      confirm('The vehicle effective date cannot be greater than the Reference Date')
-      return
+      confirm('The vehicle effective date cannot be greater than the Reference Date');
+      return;
     }
-    
+
     this._vehiclesService.UpdateVehicle(this.vehicle)
           .subscribe
           (
            (response) => {
-              this.vehicleResults = response.message;   
+              this.vehicleResults = response.message;
               this.bindGridViewEmitter.emit();
               if (response.body.OwnerStatus != null) {
-                confirm('Vehicle updated successfully ' + response.body.OwnerStatus);               
-              }
-              else {                
-                var c = confirm('Vehicle inserted successfully.Do you want to print letter?');
-                if (!c) {                 
-                  this.close();             
+                confirm('Vehicle updated successfully ' + response.body.OwnerStatus);
+              } else {
+                const c = confirm('Vehicle inserted successfully.Do you want to print letter?');
+                if (!c) {
+                  this.close();
                 }
               }
             },
@@ -313,12 +315,12 @@ export class VehicleEditorComponent implements OnInit {
               confirm('custom Errormessage: ' + error.message);
             }
           );
-    
+
           // update Onwer Information
 
   }
    findInvalidControls() {
-     //console.log("get invalid controls")
+     // console.log("get invalid controls")
     const invalid = [];
     const controls = this.AmbassyForm.controls;
     for (const name in controls) {
@@ -326,16 +328,15 @@ export class VehicleEditorComponent implements OnInit {
             invalid.push(name);
         }
     }
-    //console.log('invalid Controls:' + invalid);
+    // console.log('invalid Controls:' + invalid);
 }
   onOnclientSelected(event: any) {
-    //console.log('cleintId ' + this.AmbassyForm.value.ClientID)
+    // console.log('cleintId ' + this.AmbassyForm.value.ClientID)
     this.vehicleObject.ClientID = this.AmbassyForm.value.ClientID,
-      this.vehicleObject.Mode = "New"
-    if (this.vehicleObject.ClientID != undefined) {
+      this.vehicleObject.Mode = 'New';
+    if (this.vehicleObject.ClientID !== undefined) {
       this._ownerService.SelectOwnerByClientId(this.vehicleObject.ClientID)
-        .subscribe
-        (
+        .subscribe(
           data => {
             this.onwers = data;
           }
@@ -343,51 +344,50 @@ export class VehicleEditorComponent implements OnInit {
     }
   }
   ngGetVehicleByID(id: any) {
-     this._vehiclesService.GetVehicleByID(id)     
-       .subscribe
-       (
-           data => {             
-             this.vehicleObject = data;         
-                  }                  
-       );   
+     this._vehiclesService.GetVehicleByID(id)
+       .subscribe(
+           data => {
+             this.vehicleObject = data;
+                  }
+       );
   }
-onOwnerSelected(event :any) {
-  
+onOwnerSelected(event: any) {
+
   this.AmbassyForm.patchValue({
     OwnerSurname: null ,
     OwnerInitials:   null,
     TitleID:   null,
     OwnerPassportNumber: null,
-    RankID:   null,   
+    RankID:   null,
     NationalityID:  null,
-    OwnerMaritalStatus:  null 
-   }); 
+    OwnerMaritalStatus:  null
+   });
 
-   if(this.AmbassyForm.value.OwnerID > 0){
+   if (this.AmbassyForm.value.OwnerID > 0) {
    this._ownerService.SelectOwnerById(this.AmbassyForm.value.OwnerID)
    .subscribe
    (
        ownerInfor => {
-         this.Owner = ownerInfor[0];         
-        
+         this.Owner = ownerInfor[0];
+
          this.AmbassyForm.patchValue({
           OwnerSurname:  this.Owner.OwnerSurname ,
           OwnerInitials:  this.Owner.OwnerInitials,
           TitleID:  this.Owner.TitleID,
           OwnerPassportNumber: this.Owner.OwnerPassportNumber,
-          RankID:  this.Owner.RankID,   
+          RankID:  this.Owner.RankID,
           NationalityID: this.Owner.NationalityID,
-          OwnerMaritalStatus: this.Owner.OwnerMaritalStatus == 'true' ? 1:0 
-          
-         });       
-       }        
-   );  
-  
+          OwnerMaritalStatus: this.Owner.OwnerMaritalStatus === 'true' ? 1 : 0
+
+         });
+       }
+   );
+
   }
 }
-close(){   
+close() {
   // this.bindGrindView();
-   
+
    this.modalService.dismissAll({'dismissed': true});
 }
 
@@ -399,13 +399,13 @@ close(){
     this.FileQueryString.InvoiceId = 0;
     this.FileQueryString.ClaimId = claimId;
     this.FileQueryString.IdProvided = true;
-    //console.log('client Id:' + this.FileQueryString.ClientID +
+    // console.log('client Id:' + this.FileQueryString.ClientID +
     //  'vehicle Id: ' + this.FileQueryString.VehicleId + 'owner id :' + this.FileQueryString.OwnerId
     //  + 'Claim Id : ' + this.FileQueryString.ClaimId + 'is Id Providerd : ' + this.FileQueryString.IdProvided)
   }
 
   openReport(content, reportName: string) {
-    //this.close()
+    // this.close()
     if (reportName != null) {
 
       this.reportServer = environment.reportUrl;
@@ -421,10 +421,10 @@ close(){
       this.modalRef = this.modalService.open(content, ngbModalOptions);
     }
   }
- 
+
   changeOwnerType(data: MatRadioChange) {
-    //console.log('Owener type :' + data.value);
-    this.ownerType = data.value
+    // console.log('Owener type :' + data.value);
+    this.ownerType = data.value;
   }
 
 }
