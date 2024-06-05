@@ -106,6 +106,7 @@ namespace DIPS.Db
             usp_dipVehicle_ALLByClient,
             usp_dipVehicle_SearchByClient,
             usp_dipVehicle_VehicleById,
+            usp_CheckDuplicateVehicle, 
 
                 //Older
             usp_dipVehicle_SelectAllVehicles,

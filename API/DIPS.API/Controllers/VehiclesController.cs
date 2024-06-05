@@ -76,8 +76,6 @@ namespace DIPS.Controllers
                 }
             }
             return Request.CreateResponse(HttpStatusCode.NoContent, "No vehicles found");
-
-           
         }
 
         [HttpGet]
@@ -206,5 +204,27 @@ namespace DIPS.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, "Record not saved.");
 
         }
+
+        [HttpGet]
+        [Route("CheckDuplicateVehicle")]
+        public HttpResponseMessage CheckDuplicateVehicle([FromUri] string registration, [FromUri] int id)
+        {
+            var oParams = new DBParamCollection
+            {
+                {"@VehicleRegistration", registration},
+                {"@VehicleID", id}
+            };
+
+            using (var data = new RecordSet(StoredProcedures.DIPVehicle.usp_dipCheckDuplicateVehicle.ToString(), QueryType.StoredProcedure, oParams, Conn.DIPSConnectionString))
+            {
+                if (data.HasRows)
+                {
+                    var isDuplicate = (bool)data.Tables[0].Rows[0]["IsDuplicate"];
+                    return Request.CreateResponse(HttpStatusCode.OK, new { duplicate = isDuplicate });
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, new { duplicate = false });
+        }
+
     }
 }
