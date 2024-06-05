@@ -208,3 +208,22 @@ namespace DIPS.Controllers
         }
     }
 }
+
+        [HttpPost]
+        public HttpResponseMessage DeregisterVehicle([FromUri] int vehicleId)
+        {
+            var username = new UserController().GetUserSID();
+            var param = new DBParamCollection
+            {
+                {"@VehicleID", vehicleId},
+                {"@UserModified", new UserController().GetUserBySID(username).UserID},
+                {"@Lastmodified", DateTime.Now}
+            };
+
+            using (var oCommand = new DBCommand(StoredProcedures.dipVehicle.usp_dipVehicle_Deregister.ToString(), QueryType.StoredProcedure, param, Db.Conn.Connection))
+            {
+                oCommand.Execute();
+                return Request.CreateResponse(HttpStatusCode.OK, "Vehicle deregistered successfully");
+            }
+        }
+
