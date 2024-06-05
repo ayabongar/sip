@@ -51,4 +51,18 @@ export class VehicleService {
     const path = environment.apiEndpoint + 'Vehicles/UpdateVehicle';
     return this.httpclient.post(path, body, {headers: headers, observe: 'response', withCredentials: true});
   }
+
+  // New method to deregister a vehicle
+  public deregisterVehicle(vehicleId: number): Observable<any> {
+    const path = environment.apiEndpoint + 'Vehicles/DeregisterVehicle?vehicleId=' + vehicleId;
+    return this.httpclient.post(path, { withCredentials: true });
+  }
+
 }
+
+  // New method to deregister a vehicle
+  public deregisterVehicle(vehicleId: number): Observable<any> {
+    const path = environment.apiEndpoint + 'Vehicles/DeregisterVehicle?vehicleId=' + vehicleId;
+    return this.httpclient.post(path, { withCredentials: true });
+  }
+
