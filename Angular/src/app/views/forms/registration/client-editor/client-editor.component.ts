@@ -177,21 +177,48 @@ export class ClientEditorComponent implements OnInit {
     
   }
 
-  async onSubmit(){
-    this.client=this.PopupForm.value;    
-    this._client.SaveOrUpdateClient(this.client)
-          .subscribe
-          (
-           (response) => {
-              alert('The record was successfully saved.');
-              this.Close();
-              this.bindGrindView.emit() //emit is a function and you can pass the value
-            },
-            (error) => {
-              console.error(error.message);
-              confirm('custom Errormessage: ' + error.message);
-            }
-          );
+async onSubmit(){
+  this.client = this.PopupForm.value;
+  this._client.SaveOrUpdateClient(this.client)
+    .subscribe(
+      (response) => {
+        alert('The record was successfully saved.');
+        this.Close();
+        this.bindGrindView.emit(); //emit is a function and you can pass the value
+        const c = confirm('Client inserted successfully. Do you want to print the letter?');
+        if (c) {
+          // Logic to show report options, similar to vehicle insertion
+          this.showClientReports();
+        }
+      },
+      (error) => {
+        console.error(error.message);
+        confirm('custom Errormessage: ' + error.message);
+      }
+    );
+}
+
+showClientReports() {
+  // Logic to show report options for clients
+  // Example:
+  const reportOptions = [
+    'ClientRegistrationReport',
+    'ClientAmendmentReport',
+    'ClientDeRegistrationReport'
+  ];
+  
+  reportOptions.forEach(report => {
+    const btn = document.createElement('button');
+    btn.textContent = `View ${report}`;
+    btn.onclick = () => this.openReport(report);
+    document.body.appendChild(btn);
+  });
+}
+
+openReport(reportName: string) {
+  // Logic to open the report
+  console.log(`Opening report: ${reportName}`);
+}
   }
   Close(){
     this.clientObject = null;
