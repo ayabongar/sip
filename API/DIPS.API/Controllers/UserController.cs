@@ -175,7 +175,12 @@ namespace DIPS.Controllers
             
         }
 
-[HttpPost]
+        // Send registration email to the user
+        SendRegistrationEmailToUser(body.Email);
+
+        // Send notification email to supervisors
+        SendNotificationEmailToSupervisors();
+
 [Route("api/user/RegisterUser")]
 [System.Obsolete]
 public HttpResponseMessage RegisterUser([FromBody]UserManager body)
