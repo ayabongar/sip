@@ -175,6 +175,58 @@ namespace DIPS.Controllers
             
         }
 
+[HttpPost]
+[Route("api/user/RegisterUser")]
+[System.Obsolete]
+public HttpResponseMessage RegisterUser([FromBody]UserManager body)
+{
+    var username = User.Identity.Name.Substring(User.Identity.Name.LastIndexOf(@"\") + 1);
+    var oParams = new DBParamCollection
+    {
+       {"@UserID" ,body.UserID},
+       {"@UserCode" ,body.UserCode},
+       {"@UserFullName",body.UserFullName},
+       {"@IsActive", body.IsActive},
+       {"@LastModified",DateTime.Now},
+       {"@UserModified",   GetUserBySID(username).UserID},
+       {"@RoleId",body.RoleId},
+    };
+    using (var oCommand = new DBCommand(StoredProcedures.dipUsers.usp_dipUser_Update.ToString(), QueryType.StoredProcedure, oParams, Db.Conn.Connection))
+    {
+        oCommand.Execute();
+    }
+
+    // Send registration email to the user
+    SendRegistrationEmailToUser(body.Email);
+
+    // Send notification email to supervisors
+    SendNotificationEmailToSupervisors();
+
+    return Request.CreateResponse(HttpStatusCode.OK);
+}
+
+private void SendRegistrationEmailToUser(string userEmail)
+{
+    var subject = "Registration successful";
+    var body = "Registration successful! Please wait for the super user to activate your account.";
+    new EmailNotifier().SendEmail(userEmail, subject, body);
+}
+
+private void SendNotificationEmailToSupervisors()
+{
+    var subject = "New User Registration";
+    var body = "A new user has registered and is awaiting approval.";
+    var supervisors = GetUserByRoleID(2);
+    if (supervisors != null)
+    {
+        foreach (var supervisor in supervisors)
+        {
+            new EmailNotifier().SendEmail(supervisor.Email, subject, body);
+        }
+    }
+}
+
+
         [HttpGet]
         //[Route("api/user/GetADUser/sid")]
         [System.Obsolete]
